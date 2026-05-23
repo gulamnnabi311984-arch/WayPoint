@@ -1255,6 +1255,488 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* ====================================================================
+           MOBILE PHONE OPTIMISATION PASS — Premium Phone-First Layout (May 2026)
+           ====================================================================
+           Goal: make WayPoint behave like a polished native mobile app on
+           every phone-class viewport (≤480px wide). Before this pass the
+           site was visibly tuned for desktop only — content extended past
+           the right edge of the screen, the hero title was clipped on the
+           USA / UK pages, the cost-of-living table forced horizontal page
+           scroll, university cards were wider than the viewport, and the
+           cinematic country cards on the homepage extended beyond the
+           device width because of their fixed 340px width.
+
+           This block sits AFTER the existing 768px responsive layer so the
+           rules below selectively override / refine the tablet-class
+           treatment with phone-class spacing, type-scale and grid sizing.
+           No selectors or rules above this block were removed — phone
+           rules layer on top, leaving every desktop / tablet experience
+           untouched.
+
+           Sections covered (in order):
+             1. Global container + horizontal-overflow hard guard
+             2. Sticky header (logo + compare button row)
+             3. Homepage hero + country cards (locked width fix)
+             4. USA / UK universities grid (min-card-width fix)
+             5. University detail-page hero (title wrap + height)
+             6. Key-data points + info cards (padding + grid)
+             7. Tab controls + program cards
+             8. City-page cost-of-living table (table-layout: fixed)
+             9. Editorial / gallery / story cards (heights)
+            10. Compare panel + compare table (small-screen tightening)
+            11. Footer + misc breathing room
+        ==================================================================== */
+        @media (max-width: 480px) {
+
+            /* -------- 1. GLOBAL CONTAINER + HARD OVERFLOW GUARD --------
+               The desktop .container is 90% of the viewport, which on a
+               380px phone leaves only ~19px of gutter total — too tight
+               for cards with internal box-shadow to breathe. We bump the
+               container to a comfortable 100% width with explicit 16px
+               horizontal padding, and we add a hard `overflow-x: hidden`
+               to html/body so any rogue element (long word, fixed-width
+               background image) never produces a horizontal scrollbar on
+               the page itself. */
+            html, body {
+                overflow-x: hidden !important;
+                max-width: 100vw;
+            }
+
+            .container {
+                width: 100%;
+                padding: 24px 16px 60px 16px;
+            }
+
+            .header-content {
+                width: 100%;
+                padding: 0 16px;
+            }
+
+            /* -------- 2. STICKY HEADER — logo + compare in one row --------
+               The 768px rules stack the header into a column with the
+               compare button below the logo, which on a phone wastes 60px
+               of precious vertical space and pushes the hero down. On a
+               true phone we put the logo on the left and the compare
+               button on the right — the search box (only visible on
+               university list pages) sits on its own row beneath, full
+               width. */
+            header {
+                padding: 10px 0;
+            }
+            .header-content {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .logo {
+                font-size: 1.2rem;
+                flex-shrink: 0;
+            }
+            .header-actions {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                width: 100%;
+                align-items: stretch;
+                justify-content: center;
+            }
+            .search-container {
+                width: 100%;
+                gap: 8px;
+            }
+            .search-input,
+            .filter-dropdown {
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 10px 16px;
+            }
+            .compare-trigger-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 8px 14px;
+                font-size: 0.82rem;
+            }
+
+            /* -------- 3. HOMEPAGE HERO + COUNTRY CARDS --------
+               .country-card is fixed at 340px wide on desktop, which
+               overflows any phone narrower than ~376px (after the 16px
+               container padding). Switch to fluid width that fills the
+               container with a max cap, and shrink the card height a bit
+               so the hero + first country card fit on screen together. */
+            .page-header {
+                padding: 24px 0 28px 0;
+                text-align: center;
+            }
+            h1 {
+                font-size: 1.85rem;
+                letter-spacing: -0.5px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            p.subheading {
+                font-size: 0.95rem;
+                margin-bottom: 24px;
+            }
+
+            .country-cards-container {
+                gap: 20px;
+                padding-bottom: 40px;
+                width: 100%;
+            }
+            .other-countries {
+                width: 100%;
+                gap: 20px;
+            }
+            .country-card {
+                width: 100%;
+                max-width: 100%;
+                height: 180px;
+            }
+            .country-name,
+            .locked-country-name {
+                font-size: 1.25rem;
+            }
+            .card-overlay {
+                padding: 18px;
+            }
+
+            /* -------- 4. USA / UK UNIVERSITIES GRID --------
+               Desktop grid is `repeat(auto-fill, minmax(320px, 1fr))`.
+               On a 348px content area that 320px minimum still forces a
+               single column AND can overflow because the card's own
+               padding + shadow exceed the column width. We pin the grid
+               to a single fluid column on phone so every card sits flush
+               inside the container with proper breathing room above and
+               below. */
+            .university-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                margin-top: 24px;
+            }
+            .uni-card {
+                width: 100%;
+                min-height: 220px;
+            }
+            .uni-card-inner {
+                padding: 22px 20px;
+            }
+            .uni-card-details h3 {
+                font-size: 1.15rem;
+                line-height: 1.25;
+            }
+            .uni-card-details p {
+                font-size: 0.88rem;
+                margin-bottom: 18px;
+            }
+            .uni-card .btn,
+            .uni-card .btn-outline-gold {
+                font-size: 0.95rem;
+                padding: 11px 18px;
+            }
+
+            /* -------- 5. UNIVERSITY DETAIL-PAGE HERO --------
+               The "Find Your University. Find Your Future." style hero
+               title was being clipped on the right edge because 2.5rem
+               (the 768px setting) plus letter-spacing -1.5px still
+               produced lines wider than a 348px content area for long
+               university names like "Massachusetts Institute of
+               Technology". Phone scale is 1.7rem with a relaxed letter-
+               spacing so multi-word names wrap cleanly. */
+            .uni-hero {
+                min-height: 180px;
+                margin-bottom: 24px;
+            }
+            .uni-hero-overlay {
+                padding-top: 70px;
+                padding-bottom: 20px;
+            }
+            .uni-hero-title {
+                font-size: 1.7rem;
+                letter-spacing: -0.4px;
+                line-height: 1.18;
+                margin: 0 0 24px 0;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
+            body.uni-bg-active .uni-hero-overlay {
+                padding-top: 90px;
+            }
+
+            /* -------- 6. KEY-DATA POINTS + INFO CARDS --------
+               Tighten padding and gap so the "QS Rank / Location /
+               Tuition" data points read cleanly stacked, and the
+               long-form info cards (Admissions Requirements, etc) sit
+               edge-to-edge without inner padding eating the text width. */
+            .key-data-grid {
+                gap: 12px;
+            }
+            .data-point {
+                padding: 18px 18px;
+            }
+            .data-label {
+                font-size: 0.75rem;
+            }
+            .data-value {
+                font-size: 1.05rem;
+            }
+            .uni-info-grid {
+                gap: 16px;
+                margin-top: 28px;
+                margin-bottom: 32px;
+            }
+            .uni-info-card {
+                padding: 22px 20px;
+            }
+            .uni-info-card h3 {
+                font-size: 1.15rem;
+            }
+            .uni-info-card p,
+            .uni-info-card li {
+                font-size: 0.92rem;
+                line-height: 1.55;
+            }
+
+            /* -------- 7. TAB CONTROLS + PROGRAM CARDS --------
+               Tabs already overflow-scroll on 768px, but the gap of 15px
+               between them still pushes the active underline off-screen
+               on narrow phones. Tighten gap and pad-bottom; shrink
+               program-card font + padding so expanded body content fits. */
+            .tab-controls {
+                gap: 18px;
+                margin-bottom: 22px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .tab-controls::-webkit-scrollbar {
+                display: none;
+            }
+            .tab-btn {
+                font-size: 0.9rem;
+                padding-bottom: 12px;
+            }
+            .program-card,
+            .list-item {
+                padding: 20px 18px;
+            }
+            .program-card-header h4,
+            .list-item h4 {
+                font-size: 1.05rem;
+            }
+            .program-card-header p,
+            .list-item p {
+                font-size: 0.88rem;
+            }
+            .program-card.expanded .program-card-body {
+                padding: 16px;
+                max-height: 1200px;
+            }
+            .expanded-detail-text {
+                font-size: 0.88rem;
+            }
+            .career-chip {
+                font-size: 0.72rem;
+                padding: 3px 10px;
+            }
+            .btn-outline-gold {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            /* -------- 8. CITY-PAGE COST-OF-LIVING TABLE --------
+               This was the WORST overflow offender in the original
+               screenshots — three columns of currency ranges
+               ("£700–£1,100") forced the table wider than the viewport
+               on every phone. The fix has three pieces:
+                 a) `table-layout: fixed` on every table so column widths
+                    are computed from the available container width, not
+                    from the longest cell content.
+                 b) Aggressive cell padding + word-wrap so multi-line
+                    values like "£1,405–£2,105" wrap onto two lines
+                    cleanly instead of forcing the column to expand.
+                 c) A wrapper `overflow-x: auto` as a last-resort fallback
+                    if a particular row still won't fit — the user can
+                    horizontally scroll just that table without scrolling
+                    the entire page. */
+            table {
+                table-layout: fixed;
+                width: 100%;
+                font-size: 0.82rem;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                max-width: 100%;
+            }
+            table thead,
+            table tbody,
+            table tr {
+                width: 100%;
+            }
+            th, td {
+                padding: 12px 10px;
+                font-size: 0.8rem;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                line-height: 1.4;
+                vertical-align: top;
+            }
+            th {
+                font-size: 0.7rem;
+                letter-spacing: 0.5px;
+            }
+
+            /* -------- 9. EDITORIAL / GALLERY / STORY CARDS --------
+               Lower heights so a phone screen can show two cards at
+               once instead of one giant card consuming the entire
+               viewport. The story photo gallery becomes a single column
+               on really narrow screens for an instagram-feed feel. */
+            .editorial-card,
+            .gallery-card {
+                height: 220px;
+            }
+            .editorial-section {
+                padding: 22px 20px;
+            }
+            .editorial-section h3,
+            .editorial-heading {
+                font-size: 1.25rem;
+                margin-bottom: 16px;
+                padding-bottom: 10px;
+            }
+            .gallery-caption-overlay {
+                font-size: 0.95rem;
+                padding: 50px 18px 18px 18px;
+            }
+            .uk-half-card {
+                height: 200px;
+            }
+            .story-gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .story-card {
+                height: 240px;
+            }
+
+            /* -------- 10. COMPARE PANEL + COMPARE TABLE --------
+               The compare slide-out panel was already mobile-aware at
+               768px, but the table inside it still expanded wider than
+               the panel because of long column headers. Reuse the
+               same table-layout: fixed strategy, and tighten the row
+               label column so 3–4 universities fit visibly side by
+               side with horizontal scroll only when truly necessary. */
+            .compare-panel-inner {
+                padding: 56px 16px 32px 16px;
+            }
+            .compare-heading {
+                font-size: 1.3rem;
+            }
+            .compare-subtext {
+                font-size: 0.82rem;
+            }
+            .compare-table thead th,
+            .compare-table tbody td {
+                padding: 10px 10px;
+                font-size: 0.78rem;
+            }
+            .compare-table .compare-row-label,
+            .compare-table thead th.compare-row-label-head {
+                min-width: 110px;
+                font-size: 0.65rem;
+            }
+            .compare-table thead th .compare-uni-name {
+                font-size: 0.82rem;
+            }
+            .compare-table thead th .compare-uni-sub {
+                font-size: 0.65rem;
+            }
+
+            /* -------- 11. FOOTER + MISC BREATHING ROOM --------
+               Final tidies — smaller footer text, tighter sticky back
+               button so it doesn't crowd the hero title, and AI Future
+               overlay padding tightened so its "Explore Your Future
+               with AI" page renders cleanly on a phone. */
+            .site-footer {
+                padding: 22px 0;
+                font-size: 0.78rem;
+            }
+            .sticky-back-wrapper {
+                top: 60px;
+            }
+            .btn-back.floating {
+                padding: 7px 14px;
+                font-size: 0.8rem;
+            }
+            .ai-future-inner {
+                padding: 70px 18px 40px 18px;
+            }
+            .ai-future-heading {
+                font-size: 1.7rem;
+                line-height: 1.2;
+            }
+            .ai-future-subheading {
+                font-size: 0.9rem;
+                margin-bottom: 32px;
+            }
+            .ai-future-static-section {
+                padding: 28px 18px;
+                border-radius: 18px;
+            }
+            .ai-future-static-icon {
+                font-size: 2.4rem;
+            }
+            .ai-future-static-title {
+                font-size: 1.2rem;
+            }
+            .ai-future-static-subtitle {
+                font-size: 0.85rem;
+            }
+            .ai-future-static-content {
+                padding: 18px 14px;
+                font-size: 0.82rem;
+            }
+        }
+
+        /* ====================================================================
+           EXTRA-NARROW PHONES (≤360px) — final-mile defensive tightening
+           ====================================================================
+           Devices like the iPhone SE 1st-gen and many older budget Android
+           phones come in at 320–360px wide. Everything above is already
+           tuned for 380–480px; this final block just adds a couple of
+           rescue rules so those very narrow viewports don't show any
+           horizontal scroll on the cost-of-living table or get a clipped
+           hero title. */
+        @media (max-width: 360px) {
+            .container {
+                padding: 20px 12px 50px 12px;
+            }
+            h1 {
+                font-size: 1.65rem;
+            }
+            .uni-hero-title {
+                font-size: 1.5rem;
+            }
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.74rem;
+            }
+            th {
+                font-size: 0.64rem;
+            }
+            .data-point {
+                padding: 16px 14px;
+            }
+            .uni-card-inner {
+                padding: 20px 16px;
+            }
+            .compare-trigger-btn {
+                font-size: 0.78rem;
+            }
+        }
     
         /* --- Cinematic Ambient Motion Enhancements ---
            Performance-tuned (May 2026 smoothness pass): blanket `will-change`
