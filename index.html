@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WayPoint — Premium Discovery</title>
+    
+    <!-- Google Font: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- High-Priority Image Preloads for Instant Performance and Zero Load Delays -->
+    <link rel="preload" href="https://wallpaperaccess.com/full/19604.jpg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/372470/pexels-photo-372470.jpeg" as="image">
+    <link rel="preload" href="https://news.harvard.edu/wp-content/uploads/2020/10/Fall_01.jpg" as="image">
+    <link rel="preload" href="https://images.trvl-media.com/place/502584/0eaccecc-94bf-4457-abb1-db6494aadc19.jpg" as="image">
+    <link rel="preload" href="https://static.independent.co.uk/2025/08/15/11/47/iStock-483677767.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/3346227/pexels-photo-3346227.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/35491608/pexels-photo-35491608.jpeg" as="image">
+    <link rel="preload" href="" as="image">
+    <link rel="preload" href="https://res.klook.com/image/upload/fl_lossy.progressive,q_60/Mobile/City/egryl5rowwktik0we245.jpg" as="image">
+    <link rel="preload" href="https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/9998410/pexels-photo-9998410.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/9787987/pexels-photo-9787987.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/16771428/pexels-photo-16771428.png" as="image">
+
+    <!-- UK university card images & Oxford detail-page hero — preloaded at top priority
+         so the UK universities list and the Oxford detail page paint instantly. The
+         Oxford hero is the background of the Oxford university detail page; the 5
+         card images sit behind the UK university cards on the UK country page. -->
+    <link rel="preload" href="https://images.pexels.com/photos/30660071/pexels-photo-30660071.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/16009515/pexels-photo-16009515.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/31771446/pexels-photo-31771446.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/28288873/pexels-photo-28288873.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/19751105/pexels-photo-19751105.jpeg" as="image">
+    <link rel="preload" href="https://images.pexels.com/photos/18111345/pexels-photo-18111345.jpeg" as="image">
+
+    <!-- Country-page body background preloads — the UK and USA country-list pages
+         render a full-bleed background image via the body.uk-bg-active::before and
+         body.usa-bg-active::before pseudo-elements (see styles.css). Without these
+         preload hints the bitmap is only fetched the first time the user opens
+         the country page, which made the UK list feel slow to render on first
+         visit AND every time the user pressed the back button from an Oxford /
+         Cambridge / Imperial / UCL / LSE detail page (because the body background
+         is briefly switched off when the detail page is opened and has to be
+         re-fetched on return). Preloading at top priority warms the cache so
+         the background paints instantly on every navigation. -->
+    <link rel="preload" href="https://images.pexels.com/photos/4651134/pexels-photo-4651134.jpeg" as="image">
+    <link rel="preload" href="https://cdn.britannica.com/22/195522-050-6C15247F/Statue-of-Liberty-Upper-New-York-Bay.jpg" as="image">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="home-bg-active"> <!-- Embedded directly via markup context rules to prevent initialization layout flashing -->
+
+    <!-- Full Page Background Overlay for Universities and Cities -->
+    <div id="page-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;"></div>
+
+    <!-- Premium Sticky Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="navigateTo('page-home')">🌍 WayPoint</div>
+            <div class="header-actions">
+                <div class="search-container" id="global-search-container">
+                    <input type="text" id="uni-search" class="search-input" placeholder="Search universities..." onkeyup="filterUniversities()">
+                    <select id="city-filter" class="filter-dropdown" onchange="filterUniversities()">
+                        <option value="all">All Cities</option>
+                        <option value="new york">New York</option>
+                        <option value="boston area">Boston Area</option>
+                        <option value="california">California</option>
+                        <option value="other cities">Other Cities</option>
+                    </select>
+                </div>
+                <button id="compare-trigger-btn" class="compare-trigger-btn" onclick="openComparePanel()" aria-label="Open compare universities panel" title="Compare Universities">
+                    <span class="compare-trigger-icon">⚖️</span>
+                    <span class="compare-trigger-label">Compare</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Page 1: Homepage -->
+        <section id="page-home" class="container section active">
+            <div class="page-header">
+                <h1>Find Your University.<br>Find Your Future.</h1>
+                <p class="subheading" style="margin: 0 auto 50px auto;">Explore universities, cities, living costs and scholarships around the world.</p>
+            </div>
+
+            <div class="country-cards-container">
+                <!-- USA Card (Active) -->
+                <div class="country-card clickable active-destination" onclick="navigateTo('page-usa-unis')" style="background-image: url('https://img.magnific.com/premium-photo/statue-liberty-island-usa-upper-new-york-bay-manhattan-city-area-america-american-architecture-building-metropolis-nyc-cityscape-hudson-east-river-ny-symbol-freedom_250132-2407.jpg?semt=ais_hybrid&w=740&q=80');">
+                    <div class="card-overlay">
+                        <div class="country-name">United States of America</div>
+                        <div class="explore-text">Explore →</div>
+                    </div>
+                </div>
+
+                <!-- Locked Countries -->
+                <div class="other-countries">
+                    <!-- United Kingdom (Active) -->
+                    <div class="country-card clickable active-destination" onclick="navigateTo('page-uk-unis')" style="background-image: url('https://www.goldentours.com/travelblog/wp-content/uploads/2015/07/shutterstock_555823393-scaled.jpg');">
+                        <div class="card-overlay">
+                            <div class="country-name">United Kingdom</div>
+                            <div class="explore-text">Explore →</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Italy (Locked) -->
+                    <div class="country-card coming-soon-card" style="background-image: url('https://www.aluxurytravelblog.com/wp-content/uploads/2021/06/lake-como-1.jpg');">
+                        <div class="card-overlay">
+                            <div class="locked-country-name">Italy</div>
+                            <span class="coming-soon-text">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cost Calculator Card -->
+            <div class="glass-card" style="margin: 0 auto 60px auto; padding: 40px; width: 100%; max-width: 900px; text-align: left;">
+                <h2 style="color: var(--accent-gold); margin-bottom: 5px;">🧮 Can You Afford to Study Abroad?</h2>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Enter your budget and select a country to see realistic options.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px;">
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Monthly Budget (USD)</label>
+                        <input type="number" id="calc-budget" class="search-input" style="width: 100%; box-sizing: border-box;" placeholder="$2,000">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Living Style</label>
+                        <select id="calc-style" class="filter-dropdown" style="width: 100%; box-sizing: border-box;">
+                            <option value="shared">Shared Apartment</option>
+                            <option value="solo">Solo Apartment</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Country</label>
+                        <select id="calc-country" class="filter-dropdown" style="width: 100%; box-sizing: border-box;">
+                            <option value="usa">United States</option>
+                            <option value="uk">United Kingdom</option>
+                            <option value="italy">Italy (Coming Soon)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="calculateCosts()">Calculate →</button>
+                
+                <div id="calc-results" style="margin-top: 30px; display: none;"></div>
+            </div>
+            
+            <footer class="site-footer">
+                © 2026 WayPoint — Find Your University. Find Your Future.
+            </footer>
+        </section>
+
+        <!-- Page 2: USA Universities Page -->
+        <section id="page-usa-unis" class="container section">
+            
+            <div class="sticky-back-wrapper">
+                <button class="btn-back floating" onclick="navigateTo('page-home')">← Back to World Map</button>
+            </div>
+            
+            <h2 style="margin-top: 80px;">United States of America</h2>
+            <p class="subheading">Showing top universities in the USA</p>
+
+            <div class="university-grid" id="usa-grid">
+                <!-- Grid Items dynamically filtered -->
+                <div class="uni-card" data-name="massachusetts institute of technology (mit)" data-city="boston area">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Massachusetts Institute of Technology (MIT)</h3>
+                            <p>Cambridge, Massachusetts</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #1</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('mit')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="uni-card" data-name="harvard university" data-city="boston area">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Harvard University</h3>
+                            <p>Cambridge, Massachusetts</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #5</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('harvard')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="uni-card" data-name="stanford university" data-city="california">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Stanford University</h3>
+                            <p>Stanford, California</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #3</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('stanford')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="uni-card" data-name="california institute of technology caltech" data-city="california">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>California Institute of Technology</h3>
+                            <p>Pasadena, California</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #10</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('caltech')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="uni-card" data-name="new york university (nyu)" data-city="new york">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>New York University (NYU)</h3>
+                            <p>New York City, New York</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #55</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('nyu')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 6: Columbia University -->
+                <div class="uni-card placeholder-card" data-name="columbia university" data-city="new york">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Columbia University</h3>
+                            <p>New York City, New York</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #38</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('columbia')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 7: Yale University -->
+                <div class="uni-card placeholder-card" data-name="yale university" data-city="other cities">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Yale University</h3>
+                            <p>New Haven, Connecticut</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #21</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('yale')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 8: University of Pennsylvania -->
+                <div class="uni-card placeholder-card" data-name="university of pennsylvania uppenn" data-city="other cities">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>University of Pennsylvania</h3>
+                            <p>Philadelphia, Pennsylvania</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #15</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('upenn')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 9: Princeton University -->
+                <div class="uni-card placeholder-card" data-name="princeton university" data-city="other cities">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Princeton University</h3>
+                            <p>Princeton, New Jersey</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #25</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('princeton')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 10: University of Chicago -->
+                <div class="uni-card placeholder-card" data-name="university of chicago uchicago" data-city="other cities">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>University of Chicago</h3>
+                            <p>Chicago, Illinois</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #13</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('uchicago')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 2b: UK Universities Page -->
+        <section id="page-uk-unis" class="container section">
+            
+            <div class="sticky-back-wrapper">
+                <button class="btn-back floating" onclick="navigateTo('page-home')">← Back to World Map</button>
+            </div>
+            
+            <h2 style="margin-top: 80px;">United Kingdom</h2>
+            <p class="subheading">Showing top universities in the UK</p>
+
+            <div class="university-grid" id="uk-grid">
+                <!-- University 1: University of Oxford -->
+                <div class="uni-card placeholder-card" data-name="university of oxford" data-city="oxford">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>University of Oxford</h3>
+                            <p>Oxford, England</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #4</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('oxford')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 2: University of Cambridge -->
+                <div class="uni-card placeholder-card" data-name="university of cambridge" data-city="cambridge">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>University of Cambridge</h3>
+                            <p>Cambridge, England</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #6</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('cambridge')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 3: Imperial College London -->
+                <div class="uni-card placeholder-card" data-name="imperial college london" data-city="london">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>Imperial College London</h3>
+                            <p>London, England</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #2</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('imperial')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 4: UCL -->
+                <div class="uni-card placeholder-card" data-name="ucl university college london" data-city="london">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>UCL</h3>
+                            <p>London, England</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #9</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('ucl')">View Details</button>
+                    </div>
+                </div>
+
+                <!-- University 5: LSE - London School of Economics -->
+                <div class="uni-card placeholder-card" data-name="lse london school of economics" data-city="london">
+                    <div class="uni-card-inner">
+                        <div class="uni-card-details">
+                            <h3>LSE — London School of Economics</h3>
+                            <p>London, England</p>
+                            <p class="data-point" style="padding:0; border:none; background:transparent; margin-bottom:15px; box-shadow:none; color:var(--accent-gold)">QS Rank #56</p>
+                        </div>
+                        <button class="btn" style="width: 100%;" onclick="loadUniversity('lse')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 3: Individual University Page -->
+        <section id="page-university-detail" class="container section" style="position: relative; z-index: 1;">
+            
+            <div class="sticky-back-wrapper">
+                <button class="btn-back floating" id="dyn-back-to-country-btn" onclick="navigateTo('page-usa-unis')">• Back to USA</button>
+            </div>
+            
+            <div class="uni-hero" id="dyn-uni-hero">
+                <div class="uni-hero-overlay">
+                    <div class="uni-hero-overlay-content">
+                        
+                        <h2 id="dyn-uni-name-hero" class="uni-hero-title">University Name</h2>
+                        
+                        <!-- Quick Info Cards Bound Permanently to Glass Class Structure Spec Rules -->
+                        <div class="key-data-grid">
+                            <div class="data-point glass-card">
+                                <div class="data-label">Location</div>
+                                <div class="data-value"><a class="city-link" id="dyn-uni-city" onclick="">City Name</a></div>
+                                <a class="city-view-hint" id="dyn-uni-city-view" onclick="">view <span class="city-view-arrow">→</span></a>
+                            </div>
+                            <div class="data-point glass-card">
+                                <div class="data-label">QS World Ranking</div>
+                                <div class="data-value" id="dyn-uni-rank">#0</div>
+                            </div>
+                            <div class="data-point glass-card">
+                                <div class="data-label">Est. Annual Tuition</div>
+                                <div class="data-value" id="dyn-uni-tuition">$0</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Information Grid Bound Permanently to Glass Class Structure Spec Rules -->
+            <div class="uni-info-grid">
+                <div class="uni-info-card info-span-full glass-card" onclick="openInfoModal('overview')">
+                    <h3>Overview</h3>
+                    <div class="preview-container">
+                        <p id="dyn-uni-overview">Loading overview...</p>
+                    </div>
+                    <div class="read-more-indicator">Read Full Overview <span>→</span></div>
+                </div>
+                <div class="uni-info-card glass-card" onclick="openInfoModal('quickFacts')">
+                    <h3>Quick Facts</h3>
+                    <div class="preview-container">
+                        <ul id="dyn-uni-facts">
+                            <!-- Loaded dynamically -->
+                        </ul>
+                    </div>
+                    <div class="read-more-indicator">View Details <span>→</span></div>
+                </div>
+                <div class="uni-info-card glass-card" onclick="openInfoModal('financialReqs')">
+                    <h3>Financial Requirements</h3>
+                    <div class="preview-container">
+                        <p id="dyn-uni-finreq">Loading financial details...</p>
+                    </div>
+                    <div class="read-more-indicator">View Details <span>→</span></div>
+                </div>
+                
+                <!-- Admission Requirements Card — sits in the wide (2fr) column on
+                     desktop, mirroring Quick Facts above it. The `info-span-full`
+                     modifier was intentionally removed so this card now occupies
+                     the same column width as Quick Facts, leaving room for the
+                     Application & Deadlines card to sit immediately to its right
+                     (in the 1fr column — same width as Financial Requirements).
+                     This produces a clean 2-row paired layout:
+                       Row 1: Quick Facts  (2fr) | Financial Requirements    (1fr)
+                       Row 2: Admission Reqs (2fr) | Application & Deadlines (1fr)
+                -->
+                <div class="uni-info-card glass-card" onclick="openInfoModal('admissionRequirements')">
+                    <h3 style="color: var(--accent-gold);">Admission Requirements</h3>
+                    <div class="preview-container">
+                        <ul id="dyn-uni-admission">
+                            <!-- Loaded dynamically -->
+                        </ul>
+                    </div>
+                    <div class="read-more-indicator">View Details <span>→</span></div>
+                </div>
+
+                <!-- Application & Deadlines Card — new in this iteration. Sits in
+                     the narrow (1fr) column on desktop directly to the right of
+                     Admission Requirements, mirroring the exact size and shape
+                     of the Financial Requirements card above it. Click opens
+                     the full-screen modal via openInfoModal('applicationDeadlines').
+                     Real, researched application-deadline data is wired in for
+                     every one of the 15 universities (10 USA + 5 UK) — see
+                     `applicationDeadlines` arrays inside script.js. -->
+                <div class="uni-info-card glass-card" onclick="openInfoModal('applicationDeadlines')">
+                    <h3>Application & Deadlines</h3>
+                    <div class="preview-container">
+                        <ul id="dyn-uni-deadlines">
+                            <!-- Loaded dynamically -->
+                        </ul>
+                    </div>
+                    <div class="read-more-indicator">View Details <span>→</span></div>
+                </div>
+            </div>
+
+            <!-- Academic Tabs -->
+            <div class="tab-controls">
+                <button class="tab-btn active" onclick="openTab(event, 'tab-bachelor')">Bachelor Programs</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-master')">Master Programs</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-scholar')">Financial Aid & Scholarships</button>
+            </div>
+
+            <div id="tab-bachelor" class="tab-content active">
+                <ul class="course-list" id="dyn-bachelors-list"></ul>
+            </div>
+
+            <div id="tab-master" class="tab-content">
+                <ul class="course-list" id="dyn-masters-list"></ul>
+            </div>
+
+            <div id="tab-scholar" class="tab-content">
+                <ul class="scholarship-list" id="dyn-scholarships-list"></ul>
+            </div>
+        </section>
+
+        <!-- Page 4: City Page -->
+        <section id="page-city-detail" class="container section">
+            
+            <div class="sticky-back-wrapper">
+                <button class="btn-back floating" onclick="if(currentActiveUniId) loadUniversity(currentActiveUniId); else navigateTo('page-usa-unis')">← Back to University</button>
+            </div>
+            
+            <div class="city-header" style="margin-top: 80px; margin-bottom: 40px;">
+                <h2 id="dyn-city-name" style="font-size: 3rem; margin-bottom: 5px;">City Name</h2>
+                <p class="subheading" id="dyn-city-state" style="margin-bottom: 0;">State, Country</p>
+            </div>
+
+            <!-- STANDARD TABBED VIEW -->
+            <div id="standard-city-view">
+                <div id="dyn-city-gallery" class="city-gallery"></div>
+
+                <div class="tab-controls">
+                    <button class="tab-btn active" onclick="openTab(event, 'tab-student-life')">Student Life</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab-city-vibe')">City Vibes</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab-cost')">Cost of Living</button>
+                </div>
+
+                <div id="tab-student-life" class="tab-content active">
+                    <div class="editorial-section">
+                        <h3 class="editorial-heading">Living the Student Life</h3>
+                        <ul class="city-list" id="dyn-city-life"></ul>
+                    </div>
+                </div>
+
+                <div id="tab-city-vibe" class="tab-content">
+                    <div class="editorial-section">
+                        <p class="city-vibe-paragraph" id="dyn-city-vibes" style="font-size: 1.1rem; margin-bottom: 20px;"></p>
+                        <p class="meta" id="dyn-city-landmarks" style="color: var(--accent-gold);"></p>
+                    </div>
+                </div>
+
+                <div id="tab-cost" class="tab-content">
+                    <div class="editorial-section">
+                        <h3 class="editorial-heading">Monthly Expenses (USD)</h3>
+                        <p class="meta" style="margin-bottom: 20px; color: var(--text-muted);">Note: Costs vary highly based on lifestyle and neighborhood.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Shared Appt</th>
+                                    <th>Studio Appt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Rent</td><td id="cost-rent-shared"></td><td id="cost-rent-studio"></td></tr>
+                                <tr><td>Utilities</td><td id="cost-utils-shared"></td><td id="cost-utils-studio"></td></tr>
+                                <tr><td>Groceries/Food</td><td id="cost-food-shared"></td><td id="cost-food-studio"></td></tr>
+                                <tr><td>Transportation</td><td id="cost-trans-shared"></td><td id="cost-trans-studio"></td></tr>
+                                <tr><td>Entertainment</td><td>$200</td><td>$300</td></tr>
+                                <tr style="font-weight: 600; color: var(--accent-gold); background: rgba(240,192,64,0.05);">
+                                    <td>Total Est.</td><td id="cost-total-shared"></td><td id="cost-total-studio"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDITORIAL MAGAZINE VIEW -->
+            <div id="editorial-city-view" style="display: none;">
+                <!-- Content injected via JS -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Interactive Info Modal -->
+    <div id="info-modal" class="modal-overlay" onclick="closeModalOnOutsideClick(event)">
+        <div id="modal-background-blur"></div>
+        <div class="modal-content" id="modal-content-box">
+            <button class="modal-close-btn" onclick="closeInfoModal()">← Close Details</button>
+            <h2 id="modal-title" style="color: var(--accent-gold); margin-bottom: 25px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">Title</h2>
+            <div id="modal-body-content" class="modal-body-content">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Compare Universities Panel — Slides in from right with darkened backdrop overlay -->
+    <div id="compare-backdrop" class="compare-backdrop" onclick="closeComparePanel()" aria-hidden="true"></div>
+    <aside id="compare-panel" class="compare-panel" role="dialog" aria-modal="true" aria-labelledby="compare-panel-heading" aria-hidden="true">
+        <button class="compare-close-btn" onclick="closeComparePanel()" aria-label="Close compare panel" title="Close">×</button>
+        <div class="compare-panel-inner">
+            <div class="compare-header">
+                <h2 id="compare-panel-heading" class="compare-heading">⚖️ Compare Universities</h2>
+                <p class="compare-subtext">Select up to 4 universities to compare side by side.</p>
+            </div>
+            <div class="compare-search-block">
+                <label for="compare-search-input" class="compare-search-label">Add University</label>
+                <div class="compare-search-wrap">
+                    <input type="text" id="compare-search-input" class="compare-search-input" placeholder="Start typing a university name…" autocomplete="off" oninput="onCompareSearchInput()" onfocus="onCompareSearchInput()" onclick="onCompareSearchInput()" onkeydown="onCompareSearchKeydown(event)" aria-label="Search universities to add to compare">
+                    <div id="compare-suggestions" class="compare-suggestions" role="listbox" aria-label="University suggestions"></div>
+                </div>
+                <div id="compare-limit-msg" class="compare-limit-msg" role="status" aria-live="polite"></div>
+                <div id="compare-chips" class="compare-chips" aria-label="Selected universities for comparison"></div>
+            </div>
+            <div id="compare-table-area" class="compare-table-area" aria-live="polite">
+                <div class="compare-empty-state">
+                    <div class="compare-empty-icon">⚖️</div>
+                    <div class="compare-empty-title">No universities selected yet</div>
+                    <div class="compare-empty-desc">Add at least two universities above to see a detailed side-by-side comparison.</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Center-Screen Toast for Compare Limit Warning -->
+    <div id="compare-toast" class="compare-toast" role="status" aria-live="polite" aria-hidden="true">
+        <div class="compare-toast-inner">
+            <span class="compare-toast-icon">⚠️</span>
+            <span class="compare-toast-text">You can compare a maximum of 4 universities at a time. Remove one to add another.</span>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+         AI FUTURE OVERLAY — Premium Gate-Opening Animation
+         ===================================================================
+         This full-viewport overlay is triggered by the "🚀 Explore Your
+         Future with AI" button inside any Bachelor or Master program card
+         on any university detail page (all 10 USA + 5 UK universities).
+
+         Animation sequence:
+           1. Overlay enters with a brief dark flash (background fade-in).
+           2. Two solid gate panels meet at the horizontal centerline.
+           3. The top panel slides UP off-screen, bottom panel slides DOWN
+              off-screen — like a gate splitting open from the middle —
+              revealing the AI content layer behind them.
+           4. Content (program heading + university name + body) fades and
+              scales up with a premium spring-like ease.
+
+         Structure:
+           #ai-future-overlay        — full viewport fixed container
+             .ai-gate-panel.top      — solid panel covering top half
+             .ai-gate-panel.bottom   — solid panel covering bottom half
+             .ai-future-content      — the actual AI page content
+    =================================================================== -->
+    <div id="ai-future-overlay" class="ai-future-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ai-future-program-title">
+
+        <!-- The two gate panels — solid dark surfaces that meet at the
+             center and slide apart vertically to reveal content behind. -->
+        <div class="ai-gate-panel top">
+            <div class="ai-gate-shine"></div>
+            <div class="ai-gate-edge"></div>
+        </div>
+        <div class="ai-gate-panel bottom">
+            <div class="ai-gate-edge"></div>
+            <div class="ai-gate-shine"></div>
+        </div>
+
+        <!-- Center seam glow — a thin gold line that pulses at the moment
+             the gate is about to open, drawing the eye to the split point. -->
+        <div class="ai-gate-seam" aria-hidden="true"></div>
+
+        <!-- Content layer — sits behind the gate panels. Becomes visible
+             as the panels slide apart. -->
+        <div class="ai-future-content" id="ai-future-content">
+
+            <!-- Close button — premium minimal "× Close" affordance in
+                 the top-right corner. -->
+            <button class="ai-future-close-btn" onclick="closeAIFuturePage()" aria-label="Close AI Future page">
+                <span class="ai-future-close-icon">×</span>
+                <span class="ai-future-close-label">Close</span>
+            </button>
+
+            <!-- Background ambient glow orbs for premium feel -->
+            <div class="ai-future-ambient" aria-hidden="true">
+                <div class="ai-future-orb ai-future-orb-1"></div>
+                <div class="ai-future-orb ai-future-orb-2"></div>
+                <div class="ai-future-orb ai-future-orb-3"></div>
+            </div>
+
+            <!-- Main content body — centered, premium typography. The
+                 program title is the hero element, with the university
+                 name appearing smaller above it as context. -->
+            <div class="ai-future-inner">
+
+                <!-- Top pill: small university name context -->
+                <div class="ai-future-uni-pill" id="ai-future-uni-pill">
+                    <span class="ai-future-uni-pill-dot"></span>
+                    <span class="ai-future-uni-pill-text" id="ai-future-uni-name">University Name</span>
+                </div>
+
+                <!-- Eyebrow label above the main heading -->
+                <div class="ai-future-eyebrow">
+                    <span class="ai-future-eyebrow-icon">🚀</span>
+                    <span class="ai-future-eyebrow-text">Explore Your Future with AI</span>
+                </div>
+
+                <!-- Hero heading: the program title -->
+                <h1 class="ai-future-heading" id="ai-future-program-title">Program Title</h1>
+
+                <!-- Divider accent -->
+                <div class="ai-future-divider" aria-hidden="true">
+                    <span class="ai-future-divider-line"></span>
+                    <span class="ai-future-divider-diamond">◆</span>
+                    <span class="ai-future-divider-line"></span>
+                </div>
+
+                <!-- Subheading description -->
+                <p class="ai-future-subheading">
+                    Step into a personalized AI-powered roadmap built around this program.
+                    Career trajectories, skill gap analysis, and market intelligence — tailored to you.
+                </p>
+
+                <!-- Three static vertical preview sections — premium glassmorphism
+                     cards stacked full-width. No click behaviour, no accordion;
+                     each section is a self-contained card with a large gold
+                     emoji icon, a gold heading, a muted-white subtitle, and a
+                     placeholder content area announcing the upcoming AI feature.
+                     The "Full AI Experience Launching Soon" pill button stays
+                     directly beneath this stack, unchanged. -->
+                <div class="ai-future-static-stack">
+
+                    <!-- Section 1: Career Pathways -->
+                    <div class="ai-future-static-section">
+                        <div class="ai-future-static-icon">🎯</div>
+                        <h3 class="ai-future-static-title">Career Pathways</h3>
+                        <p class="ai-future-static-subtitle">AI-mapped routes from graduation to your dream role.</p>
+                        <div class="ai-future-static-content">
+                            Personalized AI insights for this program coming soon. Our AI engine is being trained on 2026 industry data.
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Market Outlook -->
+                    <div class="ai-future-static-section">
+                        <div class="ai-future-static-icon">📈</div>
+                        <h3 class="ai-future-static-title">Market Outlook</h3>
+                        <p class="ai-future-static-subtitle">Live demand signals and salary projections for 2026 onward.</p>
+                        <div class="ai-future-static-content">
+                            Personalized AI insights for this program coming soon. Our AI engine is being trained on 2026 industry data.
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Skill Roadmap -->
+                    <div class="ai-future-static-section">
+                        <div class="ai-future-static-icon">🛠️</div>
+                        <h3 class="ai-future-static-title">Skill Roadmap</h3>
+                        <p class="ai-future-static-subtitle">The exact competencies employers will pay a premium for.</p>
+                        <div class="ai-future-static-content">
+                            Personalized AI insights for this program coming soon. Our AI engine is being trained on 2026 industry data.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Coming Soon notice -->
+                <div class="ai-future-coming-soon">
+                    <span class="ai-future-coming-soon-pulse"></span>
+                    <span class="ai-future-coming-soon-text">Full AI experience launching soon</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
