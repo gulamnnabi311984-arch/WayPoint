@@ -3476,3 +3476,572 @@
                 initAIFutureAccordion();
             };
         })();
+
+        /* =====================================================================
+           WAYPOINT HISTORY MANAGER — Browser Back / Forward / Android Gesture
+           =====================================================================
+           Adds proper SPA navigation history to WayPoint so the browser's
+           native Back/Forward controls (and Android's back gesture / back
+           button) move the user through the site exactly the way they expect:
+           a previous university page, the country list, the homepage, etc.
+
+           DESIGN PRINCIPLES
+           -----------------
+           1. ZERO TOUCH on existing logic. Every existing function
+              (navigateTo, loadUniversity, loadCity, openComparePanel,
+              closeComparePanel, openAIFuturePage, closeAIFuturePage,
+              openInfoModal, closeInfoModal) is WRAPPED, not modified. The
+              wrappers call the originals first, then update browser
+              history. Animations, filters, the compare system, and
+              dynamic university rendering all keep behaving identically.
+
+           2. HASH-BASED ROUTING. We use URL hashes (#/usa, #/uni/mit,
+              #/city/cambridge, #/compare, #/ai) instead of pushState
+              paths. Two reasons:
+                • Refreshing or directly opening a hash URL on any static
+                  host (GitHub Pages, Netlify, S3) just works — no server
+                  rewrite rules required.
+                • The user's deep link remains shareable.
+
+           3. SILENT-REPLAY HANDLERS. When the user hits the back button,
+              popstate fires and we re-open the destination view by
+              calling the ORIGINAL (un-wrapped) function so we don't
+              push another history entry on top of the one we're
+              navigating back to. This prevents history loops where Back
+              would never actually go back.
+
+           4. MODAL-AWARE. Compare panel, AI Future overlay, and the
+              info modal each push a transient history entry on open.
+              When the user hits Back while one of these is visible, the
+              entry pops and we close just the modal — the underlying
+              page state is preserved. This matches the behaviour of
+              every modern mobile app (Instagram, Twitter, etc).
+
+           5. FAIL-SAFE. Every History API call is wrapped in try/catch.
+              If the browser somehow blocks pushState (very old browsers,
+              file:// origin without local server, etc) the site
+              degrades gracefully back to its pre-history-manager
+              behaviour — nothing breaks, history just doesn't track.
+           ===================================================================== */
+        (function() {
+
+            // -----------------------------------------------------------------
+            // 0. CAPABILITY CHECK + INTERNAL FLAGS
+            // -----------------------------------------------------------------
+            // Bail early if the browser has no History API at all. The site
+            // continues working exactly as it did before this module.
+            if (!window.history || typeof window.history.pushState !== 'function') {
+                return;
+            }
+
+            // Internal flag — when TRUE, all wrappers skip the history push.
+            // We set this to true while we're REPLAYING a state in response
+            // to popstate, so we don't double-stack the history entry that
+            // the user is trying to navigate back to.
+            let _isReplayingHistory = false;
+
+            // Internal flag — TRUE while the initial-load bootstrap is
+            // executing, so any navigation it performs uses replaceState
+            // (rewriting the current entry) instead of pushState (which
+            // would orphan an unused entry behind it).
+            let _isBootstrapping = false;
+
+            // Track which modal-style overlays are currently open so the
+            // popstate handler can correctly close them when the user
+            // presses Back. These are mirror-states of the real DOM —
+            // we don't trust them to be exact, but they help us decide
+            // whether a Back press should close a modal or change page.
+            const _modalState = {
+                compare: false,
+                aiFuture: false,
+                infoModal: false
+            };
+
+            // -----------------------------------------------------------------
+            // 1. URL HASH ENCODING / DECODING
+            // -----------------------------------------------------------------
+            // Maps an app state object to a URL hash, and back. Keeping all
+            // of this in one place means a single source of truth for the
+            // routing scheme — any future route additions go here only.
+            //
+            // State shape: { page, uniId?, cityId?, modal? }
+            //   page    — 'home' | 'usa' | 'uk' | 'university' | 'city'
+            //   uniId   — id when page === 'university'
+            //   cityId  — id when page === 'city'
+            //   modal   — 'compare' | 'ai' | 'info' (optional overlay on top)
+            //
+            // Examples:
+            //   #/                       — home
+            //   #/usa                    — USA universities list
+            //   #/uk                     — UK universities list
+            //   #/uni/mit                — MIT detail page
+            //   #/city/cambridge         — Cambridge city page
+            //   #/usa?modal=compare      — USA list with compare panel open
+            //   #/uni/mit?modal=ai       — MIT detail with AI overlay open
+            function stateToHash(state) {
+                if (!state) return '#/';
+                let hash = '#/';
+                switch (state.page) {
+                    case 'home':       hash = '#/';                          break;
+                    case 'usa':        hash = '#/usa';                       break;
+                    case 'uk':         hash = '#/uk';                        break;
+                    case 'university': hash = '#/uni/'  + (state.uniId || ''); break;
+                    case 'city':       hash = '#/city/' + (state.cityId || ''); break;
+                    default:           hash = '#/';                          break;
+                }
+                if (state.modal) {
+                    hash += '?modal=' + state.modal;
+                }
+                return hash;
+            }
+
+            function hashToState(rawHash) {
+                // Strip leading '#' and optional '/'
+                let h = (rawHash || '').replace(/^#\/?/, '');
+
+                // Split off the query string (?modal=...)
+                let modal = null;
+                const qIdx = h.indexOf('?');
+                if (qIdx >= 0) {
+                    const query = h.slice(qIdx + 1);
+                    h = h.slice(0, qIdx);
+                    const m = query.match(/(?:^|&)modal=([^&]+)/);
+                    if (m) modal = m[1];
+                }
+
+                // Empty hash = home
+                if (!h) return { page: 'home', modal: modal };
+
+                // Match against known route patterns
+                if (h === 'usa') return { page: 'usa', modal: modal };
+                if (h === 'uk')  return { page: 'uk',  modal: modal };
+
+                const uniMatch  = h.match(/^uni\/(.+)$/);
+                if (uniMatch) {
+                    return { page: 'university', uniId: uniMatch[1], modal: modal };
+                }
+
+                const cityMatch = h.match(/^city\/(.+)$/);
+                if (cityMatch) {
+                    return { page: 'city', cityId: cityMatch[1], modal: modal };
+                }
+
+                // Unknown route — fall back to home
+                return { page: 'home', modal: modal };
+            }
+
+            // -----------------------------------------------------------------
+            // 2. SAFE PUSH / REPLACE WRAPPERS
+            // -----------------------------------------------------------------
+            // Every History API call goes through these so a single try/catch
+            // protects the whole site from rare browser quirks (private mode
+            // quotas, file:// origins, etc).
+            function safePush(state) {
+                if (_isReplayingHistory) return; // popstate replay — never push
+                try {
+                    const hash = stateToHash(state);
+                    if (_isBootstrapping) {
+                        window.history.replaceState(state, '', hash);
+                    } else {
+                        window.history.pushState(state, '', hash);
+                    }
+                } catch (e) {
+                    // Silently ignore — site keeps working without history tracking
+                }
+            }
+
+            function safeReplace(state) {
+                try {
+                    const hash = stateToHash(state);
+                    window.history.replaceState(state, '', hash);
+                } catch (e) { /* ignore */ }
+            }
+
+            // -----------------------------------------------------------------
+            // 3. PRESERVE ORIGINAL FUNCTION REFERENCES
+            // -----------------------------------------------------------------
+            // We grab the originals BEFORE wrapping so the popstate handler
+            // can replay state without going through the wrapper (which
+            // would push a duplicate entry).
+            const _originalNavigateTo       = typeof navigateTo       === 'function' ? navigateTo       : null;
+            const _originalLoadUniversity   = typeof loadUniversity   === 'function' ? loadUniversity   : null;
+            const _originalLoadCity         = typeof loadCity         === 'function' ? loadCity         : null;
+            const _originalOpenCompare      = typeof openComparePanel === 'function' ? openComparePanel : null;
+            const _originalCloseCompare     = typeof closeComparePanel=== 'function' ? closeComparePanel: null;
+            const _originalOpenAIFuture     = typeof openAIFuturePage === 'function' ? openAIFuturePage : null;
+            const _originalCloseAIFuture    = typeof closeAIFuturePage=== 'function' ? closeAIFuturePage: null;
+            const _originalOpenInfoModal    = typeof openInfoModal    === 'function' ? openInfoModal    : null;
+            const _originalCloseInfoModal   = typeof closeInfoModal   === 'function' ? closeInfoModal   : null;
+
+            // -----------------------------------------------------------------
+            // 4. PAGE-ID ⇔ STATE MAPPING
+            // -----------------------------------------------------------------
+            // The existing app refers to pages by DOM id ('page-home',
+            // 'page-usa-unis', etc). Our state object uses cleaner page
+            // names ('home', 'usa', etc). These two helpers translate
+            // between them so the wrapper layer can speak the app's
+            // existing vocabulary while history speaks ours.
+            function pageIdToStateName(pageId) {
+                switch (pageId) {
+                    case 'page-home':              return 'home';
+                    case 'page-usa-unis':          return 'usa';
+                    case 'page-uk-unis':           return 'uk';
+                    case 'page-university-detail': return 'university';
+                    case 'page-city-detail':       return 'city';
+                    default:                       return null;
+                }
+            }
+
+            // -----------------------------------------------------------------
+            // 5. WRAP navigateTo — push history on every section change
+            // -----------------------------------------------------------------
+            // navigateTo is the central router. Every time it's called we
+            // determine the state name and push a corresponding history
+            // entry. The wrapped function is otherwise byte-identical
+            // in observable behaviour — same animation timings, same
+            // background swaps, same compare-button visibility logic.
+            if (_originalNavigateTo) {
+                window.navigateTo = function(pageId) {
+                    const result = _originalNavigateTo.apply(this, arguments);
+
+                    // Only push history for top-level pages we actually
+                    // route via the URL. University detail and city
+                    // detail navigation happen through loadUniversity /
+                    // loadCity, which call navigateTo internally — those
+                    // are handled by their own wrappers, so we skip
+                    // them here to avoid duplicate history entries.
+                    const stateName = pageIdToStateName(pageId);
+                    if (stateName && stateName !== 'university' && stateName !== 'city') {
+                        safePush({ page: stateName });
+                    }
+                    return result;
+                };
+            }
+
+            // -----------------------------------------------------------------
+            // 6. WRAP loadUniversity — push #/uni/<id>
+            // -----------------------------------------------------------------
+            // loadUniversity internally calls navigateTo('page-university-detail')
+            // which our wrapper above sees as 'university' — but we skip
+            // pushing for 'university' there because we want loadUniversity
+            // (which knows the actual uniId) to push the rich state.
+            if (_originalLoadUniversity) {
+                window.loadUniversity = function(uniId) {
+                    const result = _originalLoadUniversity.apply(this, arguments);
+                    safePush({ page: 'university', uniId: uniId });
+                    return result;
+                };
+            }
+
+            // -----------------------------------------------------------------
+            // 7. WRAP loadCity — push #/city/<id>
+            // -----------------------------------------------------------------
+            if (_originalLoadCity) {
+                window.loadCity = function(cityId) {
+                    const result = _originalLoadCity.apply(this, arguments);
+                    safePush({ page: 'city', cityId: cityId });
+                    return result;
+                };
+            }
+
+            // -----------------------------------------------------------------
+            // 8. WRAP MODAL OPENERS / CLOSERS
+            // -----------------------------------------------------------------
+            // Each modal pushes a transient state on open, and pops it on
+            // close. The popstate handler below uses this so Back closes
+            // the modal first before backing out to the previous page —
+            // exactly like Instagram, Twitter, etc.
+            //
+            // We only push when opening from a "fresh" state (i.e. not as
+            // part of a popstate replay), and we only pop when closing
+            // from a user action (not as part of a popstate replay).
+            function currentBaseState() {
+                // The most recent non-modal state — read from history.state
+                // if present, otherwise compute from the active section.
+                const s = window.history.state;
+                if (s && s.page) {
+                    return { page: s.page, uniId: s.uniId, cityId: s.cityId };
+                }
+                const active = document.querySelector('.section.active');
+                if (active) {
+                    const name = pageIdToStateName(active.id);
+                    if (name) {
+                        return {
+                            page: name,
+                            uniId: name === 'university' ? (typeof currentActiveUniId !== 'undefined' ? currentActiveUniId : null) : undefined,
+                            cityId: undefined
+                        };
+                    }
+                }
+                return { page: 'home' };
+            }
+
+            if (_originalOpenCompare) {
+                window.openComparePanel = function() {
+                    const result = _originalOpenCompare.apply(this, arguments);
+                    _modalState.compare = true;
+                    if (!_isReplayingHistory) {
+                        const base = currentBaseState();
+                        safePush({ page: base.page, uniId: base.uniId, cityId: base.cityId, modal: 'compare' });
+                    }
+                    return result;
+                };
+            }
+
+            if (_originalCloseCompare) {
+                window.closeComparePanel = function() {
+                    const wasOpen = _modalState.compare;
+                    const result = _originalCloseCompare.apply(this, arguments);
+                    _modalState.compare = false;
+                    // If user closed the panel via the X button (not Back),
+                    // pop the modal entry off history so future Back goes
+                    // to the previous PAGE, not re-opens the compare panel.
+                    if (wasOpen && !_isReplayingHistory) {
+                        try {
+                            const s = window.history.state;
+                            if (s && s.modal === 'compare') {
+                                window.history.back();
+                            }
+                        } catch (e) { /* ignore */ }
+                    }
+                    return result;
+                };
+            }
+
+            if (_originalOpenAIFuture) {
+                // Note: this wraps the already-wrapped openAIFuturePage from
+                // the accordion-reset IIFE earlier in this file, which is
+                // exactly what we want — both wrappers compose cleanly.
+                window.openAIFuturePage = function(programTitle, uniName) {
+                    const result = _originalOpenAIFuture.apply(this, arguments);
+                    _modalState.aiFuture = true;
+                    if (!_isReplayingHistory) {
+                        const base = currentBaseState();
+                        safePush({ page: base.page, uniId: base.uniId, cityId: base.cityId, modal: 'ai' });
+                    }
+                    return result;
+                };
+            }
+
+            if (_originalCloseAIFuture) {
+                window.closeAIFuturePage = function() {
+                    const wasOpen = _modalState.aiFuture;
+                    const result = _originalCloseAIFuture.apply(this, arguments);
+                    _modalState.aiFuture = false;
+                    if (wasOpen && !_isReplayingHistory) {
+                        try {
+                            const s = window.history.state;
+                            if (s && s.modal === 'ai') {
+                                window.history.back();
+                            }
+                        } catch (e) { /* ignore */ }
+                    }
+                    return result;
+                };
+            }
+
+            if (_originalOpenInfoModal) {
+                window.openInfoModal = function(section) {
+                    const result = _originalOpenInfoModal.apply(this, arguments);
+                    _modalState.infoModal = true;
+                    if (!_isReplayingHistory) {
+                        const base = currentBaseState();
+                        safePush({ page: base.page, uniId: base.uniId, cityId: base.cityId, modal: 'info' });
+                    }
+                    return result;
+                };
+            }
+
+            if (_originalCloseInfoModal) {
+                window.closeInfoModal = function() {
+                    const wasOpen = _modalState.infoModal;
+                    const result = _originalCloseInfoModal.apply(this, arguments);
+                    _modalState.infoModal = false;
+                    if (wasOpen && !_isReplayingHistory) {
+                        try {
+                            const s = window.history.state;
+                            if (s && s.modal === 'info') {
+                                window.history.back();
+                            }
+                        } catch (e) { /* ignore */ }
+                    }
+                    return result;
+                };
+            }
+
+            // -----------------------------------------------------------------
+            // 9. SILENT REPLAY — open destination without pushing history
+            // -----------------------------------------------------------------
+            // Used by popstate (and the initial-load bootstrap) to bring
+            // the UI to a given state without recording it as a new
+            // history entry. All ORIGINAL (un-wrapped) functions are
+            // called here so no new pushState fires.
+            function replayState(state) {
+                if (!state) state = { page: 'home' };
+                _isReplayingHistory = true;
+                try {
+                    // FIRST: close any open modal that ISN'T the one we're
+                    // navigating to. This handles the case where the
+                    // user opens compare, then opens AI overlay, then
+                    // hits Back twice — each Back should peel one layer.
+                    if (_modalState.compare && state.modal !== 'compare' && _originalCloseCompare) {
+                        try { _originalCloseCompare(); } catch (e) {}
+                        _modalState.compare = false;
+                    }
+                    if (_modalState.aiFuture && state.modal !== 'ai' && _originalCloseAIFuture) {
+                        try { _originalCloseAIFuture(); } catch (e) {}
+                        _modalState.aiFuture = false;
+                    }
+                    if (_modalState.infoModal && state.modal !== 'info' && _originalCloseInfoModal) {
+                        try { _originalCloseInfoModal(); } catch (e) {}
+                        _modalState.infoModal = false;
+                    }
+
+                    // SECOND: navigate to the underlying page if it
+                    // differs from the currently-active section. We use
+                    // the original (un-wrapped) functions to avoid
+                    // generating new history entries.
+                    const activeId = (document.querySelector('.section.active') || {}).id;
+                    const targetPageId = (function() {
+                        switch (state.page) {
+                            case 'home':       return 'page-home';
+                            case 'usa':        return 'page-usa-unis';
+                            case 'uk':         return 'page-uk-unis';
+                            case 'university': return 'page-university-detail';
+                            case 'city':       return 'page-city-detail';
+                            default:           return 'page-home';
+                        }
+                    })();
+
+                    if (state.page === 'university' && state.uniId) {
+                        // Only re-load the university detail if we're not
+                        // already viewing the same one (avoids re-fetching
+                        // and re-animating in place when only the modal
+                        // changed).
+                        if (typeof currentActiveUniId === 'undefined' ||
+                            currentActiveUniId !== state.uniId ||
+                            activeId !== targetPageId) {
+                            if (_originalLoadUniversity) _originalLoadUniversity(state.uniId);
+                        }
+                    } else if (state.page === 'city' && state.cityId) {
+                        if (activeId !== targetPageId) {
+                            if (_originalLoadCity) _originalLoadCity(state.cityId);
+                        }
+                    } else {
+                        // Top-level page (home, usa, uk)
+                        if (activeId !== targetPageId && _originalNavigateTo) {
+                            _originalNavigateTo(targetPageId);
+                        }
+                    }
+
+                    // THIRD: open the modal layer if the target state
+                    // includes one and it isn't already open.
+                    if (state.modal === 'compare' && !_modalState.compare && _originalOpenCompare) {
+                        _originalOpenCompare();
+                        _modalState.compare = true;
+                    } else if (state.modal === 'ai' && !_modalState.aiFuture && _originalOpenAIFuture) {
+                        // We don't have the programTitle/uniName for a deep-
+                        // linked AI overlay — pass best-effort placeholders.
+                        // The overlay still opens and the user can close it.
+                        _originalOpenAIFuture('Program', 'University');
+                        _modalState.aiFuture = true;
+                    }
+                    // Note: 'info' modal is intentionally NOT re-opened on
+                    // replay because it requires per-section content that
+                    // depends on which info card was clicked — re-opening
+                    // it cold from a deep link would show stale data.
+                    // Hitting Back through an info modal still works,
+                    // it just won't re-appear via Forward.
+                } finally {
+                    _isReplayingHistory = false;
+                }
+            }
+
+            // -----------------------------------------------------------------
+            // 10. POPSTATE HANDLER — the heart of Back / Forward support
+            // -----------------------------------------------------------------
+            // Browsers fire popstate on EVERY history navigation: Back,
+            // Forward, Android back gesture, mouse back button on side of
+            // mouse, etc. We don't distinguish between them — we just
+            // replay whatever state the browser hands us.
+            window.addEventListener('popstate', function(event) {
+                const state = event.state || hashToState(window.location.hash);
+                replayState(state);
+            });
+
+            // Some old/edge mobile browsers fire hashchange instead of (or
+            // in addition to) popstate. Hook it as a redundant safety net.
+            // We guard against double-firing by checking if the URL still
+            // disagrees with the current section AFTER popstate would have
+            // run — if so, do a manual replay from the hash.
+            window.addEventListener('hashchange', function() {
+                const state = hashToState(window.location.hash);
+                const activeId = (document.querySelector('.section.active') || {}).id;
+                const expectedId = (function() {
+                    switch (state.page) {
+                        case 'home':       return 'page-home';
+                        case 'usa':        return 'page-usa-unis';
+                        case 'uk':         return 'page-uk-unis';
+                        case 'university': return 'page-university-detail';
+                        case 'city':       return 'page-city-detail';
+                        default:           return 'page-home';
+                    }
+                })();
+                if (activeId !== expectedId) {
+                    replayState(state);
+                }
+            });
+
+            // -----------------------------------------------------------------
+            // 11. INITIAL BOOTSTRAP — deep links + refresh handling
+            // -----------------------------------------------------------------
+            // When the page first loads, we check the URL hash. If it
+            // describes a non-home state, we replay it so refresh / direct
+            // links / sharing all open the correct view.
+            //
+            // We use replaceState (not pushState) so the initial entry
+            // sits at the bottom of the stack — pressing Back from the
+            // first deep-linked view goes to whatever was there before
+            // (typically nothing — i.e. exits the site) rather than to a
+            // dangling /home entry.
+            function bootstrapFromUrl() {
+                _isBootstrapping = true;
+                try {
+                    const rawHash = window.location.hash || '';
+                    const state = hashToState(rawHash);
+
+                    // ALWAYS write a clean state object onto the current
+                    // history entry. This guarantees event.state will
+                    // be populated on the very next popstate fire — some
+                    // browsers default it to null on first load.
+                    safeReplace(state);
+
+                    // If the hash points anywhere other than home, replay
+                    // the state to actually open that section.
+                    if (state.page !== 'home' || state.modal) {
+                        // Defer one tick so the existing window.load
+                        // handler (which sets active-page opacity, etc)
+                        // gets to run first.
+                        setTimeout(function() {
+                            _isBootstrapping = false;
+                            replayState(state);
+                        }, 0);
+                    } else {
+                        _isBootstrapping = false;
+                    }
+                } catch (e) {
+                    _isBootstrapping = false;
+                }
+            }
+
+            // Run bootstrap after the DOM is fully loaded. The existing
+            // window.load handler runs at this same point too, so we use
+            // setTimeout(0) below to let it finish first inside
+            // bootstrapFromUrl itself for non-home routes.
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                bootstrapFromUrl();
+            } else {
+                document.addEventListener('DOMContentLoaded', bootstrapFromUrl);
+            }
+
+        })();
