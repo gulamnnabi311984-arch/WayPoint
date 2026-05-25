@@ -213,7 +213,7 @@
             transform-origin: left;
         }
 
-        /* "view →" supplementary affordance — sits directly under the city
+        /* "view â†’" supplementary affordance — sits directly under the city
            name inside the Location data-point on every university detail page.
            Uses the exact same accent-gold tone as the city link itself but at
            a softer weight/size so it reads as a quiet, visually-linked hint
@@ -1260,7 +1260,7 @@
            MOBILE PHONE OPTIMISATION PASS — Premium Phone-First Layout (May 2026)
            ====================================================================
            Goal: make WayPoint behave like a polished native mobile app on
-           every phone-class viewport (≤480px wide). Before this pass the
+           every phone-class viewport (â‰¤480px wide). Before this pass the
            site was visibly tuned for desktop only — content extended past
            the right edge of the screen, the hero title was clipped on the
            USA / UK pages, the cost-of-living table forced horizontal page
@@ -1550,13 +1550,13 @@
             /* -------- 8. CITY-PAGE COST-OF-LIVING TABLE --------
                This was the WORST overflow offender in the original
                screenshots — three columns of currency ranges
-               ("£700–£1,100") forced the table wider than the viewport
+               ("Â£700–Â£1,100") forced the table wider than the viewport
                on every phone. The fix has three pieces:
                  a) `table-layout: fixed` on every table so column widths
                     are computed from the available container width, not
                     from the longest cell content.
                  b) Aggressive cell padding + word-wrap so multi-line
-                    values like "£1,405–£2,105" wrap onto two lines
+                    values like "Â£1,405–Â£2,105" wrap onto two lines
                     cleanly instead of forcing the column to expand.
                  c) A wrapper `overflow-x: auto` as a last-resort fallback
                     if a particular row still won't fit — the user can
@@ -1702,7 +1702,7 @@
         }
 
         /* ====================================================================
-           EXTRA-NARROW PHONES (≤360px) — final-mile defensive tightening
+           EXTRA-NARROW PHONES (â‰¤360px) — final-mile defensive tightening
            ====================================================================
            Devices like the iPhone SE 1st-gen and many older budget Android
            phones come in at 320–360px wide. Everything above is already
@@ -2607,7 +2607,7 @@
         /* =================================================================
            AI FUTURE OVERLAY — Gate-Opening Animation + Premium Page Styles
            =================================================================
-           Triggered from the "🚀 Explore Your Future with AI" button on any
+           Triggered from the "ðŸš€ Explore Your Future with AI" button on any
            Bachelor or Master program card across all 15 universities
            (10 USA + 5 UK). Implements a cinematic, two-panel "gate"
            opening animation: the screen splits horizontally at the middle,
@@ -3410,9 +3410,9 @@
         }
 
         /* ====================================================================
-           ════════════════════════════════════════════════════════════════════
+           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                 WAYPOINT — PREMIUM DESIGN ENHANCEMENT LAYER  v1
-           ════════════════════════════════════════════════════════════════════
+           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            This block is appended to the end of styles.css and is purely
            additive — it does NOT modify, override, or remove any existing
            rules above. Every rule here either targets a new state (focus,
@@ -3663,7 +3663,7 @@
             left: 125%;
         }
 
-        /* --- "Explore →" arrow animation on hover --- */
+        /* --- "Explore â†’" arrow animation on hover --- */
         .country-card.clickable .explore-text {
             display: inline-block;
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -4032,10 +4032,10 @@
            ==================================================================== */
 
         /* ====================================================================
-           ════════════════════════════════════════════════════════════════════
+           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                 WAYPOINT — PERFORMANCE + AI ACCORDION LAYER  v2
                 (May 2026 — added after v1 enhancement layer)
-           ════════════════════════════════════════════════════════════════════
+           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            This block is purely additive. It addresses two issues:
 
              1. SCROLL LAG in the four info modals (Overview, Quick Facts,
@@ -4322,3 +4322,1821 @@
         }
 
         /* End — WAYPOINT PERFORMANCE + AI ACCORDION LAYER v2 */
+
+
+/* ======================================================================
+   â–ˆâ–ˆâ•—    â–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•—   â–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ•—   â–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—
+   â–ˆâ–ˆâ•‘    â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â•šâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ•‘â•šâ•â•â–ˆâ–ˆâ•”â•â•â•
+   â–ˆâ–ˆâ•‘ â–ˆâ•— â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•‘ â•šâ–ˆâ–ˆâ–ˆâ–ˆâ•”â• â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â–ˆâ–ˆâ•— â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘
+   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•‘  â•šâ–ˆâ–ˆâ•”â•  â–ˆâ–ˆâ•”â•â•â•â• â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘
+   â•šâ–ˆâ–ˆâ–ˆâ•”â–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘     â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘ â•šâ–ˆâ–ˆâ–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘
+    â•šâ•â•â•â•šâ•â•â• â•šâ•â•  â•šâ•â•   â•šâ•â•   â•šâ•â•      â•šâ•â•â•â•â•â• â•šâ•â•â•šâ•â•  â•šâ•â•â•â•   â•šâ•â•
+
+   2026 REDESIGN LAYER — "Deep Observatory"
+   ----------------------------------------------------------------------
+   Inspiration: Linear's precision Ã— Vercel's gradient language Ã— Arc's
+   playful motion. This layer sits at the END of the stylesheet so it has
+   the final word in the cascade — every visual primitive of the site is
+   re-skinned here without touching the original rules above (compare
+   panel logic, AI gate animation, modal mechanics, responsive
+   breakpoints all keep working byte-identically).
+   ====================================================================== */
+
+/* ---------- 1. DESIGN TOKENS ---------- */
+:root {
+    /* Surfaces */
+    --wp-bg:        #07081a;
+    --wp-bg-deep:   #04050f;
+    --wp-bg-elev:   #0b0d24;
+
+    /* Text */
+    --wp-text:       #f5f6fb;
+    --wp-text-muted: #a4adc2;
+    --wp-text-dim:   #6b7388;
+
+    /* Accents */
+    --wp-gold:        #f0c040;
+    --wp-gold-soft:   #ffd870;
+    --wp-violet:      #8b7cff;
+    --wp-violet-soft: #b9aeff;
+    --wp-cyan:        #5fd1ff;
+    --wp-pink:        #ff7ab8;
+    --wp-teal:        #4dd2c1;
+
+    /* Glass */
+    --wp-glass:        rgba(255, 255, 255, 0.045);
+    --wp-glass-elev:   rgba(255, 255, 255, 0.075);
+    --wp-glass-strong: rgba(255, 255, 255, 0.11);
+    --wp-glass-bd:     rgba(255, 255, 255, 0.09);
+    --wp-glass-bd-hi:  rgba(255, 255, 255, 0.18);
+
+    /* Geometry */
+    --wp-r-xs:  6px;
+    --wp-r-sm:  10px;
+    --wp-r:     14px;
+    --wp-r-lg:  20px;
+    --wp-r-xl:  28px;
+
+    /* Motion */
+    --wp-ease:        cubic-bezier(0.22, 1, 0.36, 1);
+    --wp-ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+    --wp-ease-snap:   cubic-bezier(0.5, 0, 0.05, 1);
+
+    /* Fonts */
+    --wp-font:      'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --wp-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    /* Spotlight (JS updates these on mousemove) */
+    --wp-mx: 50%;
+    --wp-my: 30%;
+
+    /* Re-align legacy tokens so old rules pick up the new palette */
+    --bg-color:          #07081a;
+    --text-main:         #f5f6fb;
+    --text-muted:        #a4adc2;
+    --accent-gold:       #f0c040;
+    --accent-gold-glow:  rgba(240, 192, 64, 0.35);
+    --glass-bg:          rgba(255, 255, 255, 0.045);
+    --glass-border:      rgba(255, 255, 255, 0.09);
+    --glass-hover:       rgba(255, 255, 255, 0.085);
+}
+
+/* ---------- 2. TYPOGRAPHY BASELINE ---------- */
+html, body { background: var(--wp-bg); }
+body, * {
+    font-family: var(--wp-font) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    font-size: 15.5px;
+    letter-spacing: -0.005em;
+    color: var(--wp-text);
+}
+
+/* Mono face for ranks, tuition, dates, deadlines, numerical metadata */
+.data-value,
+.compare-uni-sub,
+.compare-table .compare-row-label,
+.compare-table thead th.compare-row-label-head,
+.uni-card-details .data-point,
+.list-item .meta,
+.career-chip,
+.coming-soon-pill,
+.compare-trigger-label,
+.country-flag-mark + .country-name + .explore-text,
+.wp-mono {
+    font-family: var(--wp-font-mono) !important;
+    font-feature-settings: "ss01", "tnum";
+    letter-spacing: 0;
+}
+
+/* Headlines — tighter tracking, sharper rhythm */
+h1, h2, h3, h4 {
+    letter-spacing: -0.025em;
+    font-weight: 700;
+}
+h1 { letter-spacing: -0.04em; line-height: 1.04; }
+.uni-hero-title { letter-spacing: -0.04em; }
+
+/* Hero h1 gets the animated gradient text fill */
+.page-header h1 {
+    background:
+        linear-gradient(
+            120deg,
+            #ffffff 0%,
+            #ffffff 35%,
+            var(--wp-gold) 55%,
+            var(--wp-violet-soft) 75%,
+            #ffffff 100%
+        );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: wpHueShift 22s ease-in-out infinite alternate;
+    text-shadow: none;
+}
+@keyframes wpHueShift {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+p.subheading {
+    color: var(--wp-text-muted);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+}
+
+/* ---------- 3. LIVING BACKGROUND SYSTEM ---------- */
+/* Kill the photo wallpapers on home / USA / UK pages — the mesh below
+   takes over. We keep the pseudo-elements as a clean dark canvas. */
+body.home-bg-active::before,
+body.usa-bg-active::before,
+body.uk-bg-active::before {
+    background-image: none !important;
+    background-color: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+body.home-bg-active::after,
+body.usa-bg-active::after,
+body.uk-bg-active::after {
+    background: transparent !important;
+    background-color: transparent !important;
+    animation: none !important;
+}
+
+/* The four drifting blobs sit on a fixed wrapper that covers the viewport. */
+.wp-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(40, 32, 80, 0.55) 0%, transparent 55%),
+        linear-gradient(180deg, #08091c 0%, #050613 60%, #04050f 100%);
+    opacity: 1;
+    transition: opacity 0.8s var(--wp-ease);
+}
+
+/* When NO bg-active class is present (uni detail / city detail pages),
+   fade the mesh out so the hero photo can take over the backdrop. */
+body:not(.home-bg-active):not(.usa-bg-active):not(.uk-bg-active) .wp-mesh {
+    opacity: 0;
+}
+
+.wp-mesh-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    will-change: transform;
+    mix-blend-mode: screen;
+    opacity: 0.85;
+}
+
+.wp-mesh-blob-1 {
+    width: 60vw; height: 60vw;
+    left: -15vw; top: -20vh;
+    background: radial-gradient(circle, rgba(240, 192, 64, 0.55) 0%, rgba(240, 192, 64, 0) 70%);
+    animation: wpBlobDrift1 38s ease-in-out infinite alternate;
+}
+.wp-mesh-blob-2 {
+    width: 55vw; height: 55vw;
+    right: -10vw; top: 10vh;
+    background: radial-gradient(circle, rgba(139, 124, 255, 0.45) 0%, rgba(139, 124, 255, 0) 70%);
+    animation: wpBlobDrift2 46s ease-in-out infinite alternate;
+}
+.wp-mesh-blob-3 {
+    width: 50vw; height: 50vw;
+    left: 5vw; bottom: -15vh;
+    background: radial-gradient(circle, rgba(95, 209, 255, 0.32) 0%, rgba(95, 209, 255, 0) 70%);
+    animation: wpBlobDrift3 52s ease-in-out infinite alternate;
+}
+.wp-mesh-blob-4 {
+    width: 45vw; height: 45vw;
+    right: 0vw; bottom: -20vh;
+    background: radial-gradient(circle, rgba(255, 122, 184, 0.28) 0%, rgba(255, 122, 184, 0) 70%);
+    animation: wpBlobDrift4 60s ease-in-out infinite alternate;
+}
+
+@keyframes wpBlobDrift1 {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(8vw, 6vh, 0) scale(1.08); }
+    100% { transform: translate3d(-4vw, 4vh, 0) scale(0.96); }
+}
+@keyframes wpBlobDrift2 {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(-7vw, 5vh, 0) scale(0.94); }
+    100% { transform: translate3d(5vw, -6vh, 0) scale(1.1); }
+}
+@keyframes wpBlobDrift3 {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(6vw, -5vh, 0) scale(1.05); }
+    100% { transform: translate3d(-5vw, 6vh, 0) scale(0.97); }
+}
+@keyframes wpBlobDrift4 {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(-5vw, -4vh, 0) scale(1.06); }
+    100% { transform: translate3d(7vw, 5vh, 0) scale(0.95); }
+}
+
+/* Conic halo behind the hero — rotates slowly for that 24/7 alive feel. */
+.wp-mesh-halo {
+    position: absolute;
+    top: -30vh; left: 50%;
+    width: 140vmax; height: 140vmax;
+    transform: translateX(-50%);
+    background: conic-gradient(
+        from 0deg,
+        rgba(240, 192, 64, 0.08) 0deg,
+        rgba(139, 124, 255, 0.10) 90deg,
+        rgba(95, 209, 255, 0.08) 180deg,
+        rgba(240, 192, 64, 0.06) 270deg,
+        rgba(240, 192, 64, 0.08) 360deg
+    );
+    filter: blur(80px);
+    opacity: 0.55;
+    animation: wpHaloSpin 90s linear infinite;
+    mix-blend-mode: screen;
+}
+@keyframes wpHaloSpin {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to   { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Per-page tinting — USA leans warm (gold/red), UK leans cool (violet/cyan).
+   We modulate blob mix-blend filters and opacities for each route. */
+body.usa-bg-active .wp-mesh-blob-1 { background: radial-gradient(circle, rgba(255, 170, 80, 0.6) 0%, transparent 70%); }
+body.usa-bg-active .wp-mesh-blob-2 { background: radial-gradient(circle, rgba(255, 90, 90, 0.32) 0%, transparent 70%); }
+body.uk-bg-active  .wp-mesh-blob-1 { background: radial-gradient(circle, rgba(139, 124, 255, 0.55) 0%, transparent 70%); }
+body.uk-bg-active  .wp-mesh-blob-2 { background: radial-gradient(circle, rgba(95, 209, 255, 0.45) 0%, transparent 70%); }
+
+/* Filmic grain — inline SVG noise (no extra request). 4% opacity so it
+   reads as texture, not pattern. Fixed so it doesn't scroll with content. */
+.wp-grain {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 220px 220px;
+}
+
+/* Cursor spotlight — soft glow that follows the pointer. JS updates
+   --wp-mx / --wp-my on every mousemove. Disabled on touch/coarse pointers. */
+.wp-spotlight {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+        600px circle at var(--wp-mx) var(--wp-my),
+        rgba(240, 192, 64, 0.08) 0%,
+        rgba(139, 124, 255, 0.05) 30%,
+        transparent 60%
+    );
+    transition: opacity 0.6s var(--wp-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+    body.wp-spotlight-on .wp-spotlight { opacity: 1; }
+}
+
+/* ---------- 4. HEADER REFINEMENTS ---------- */
+header {
+    background: rgba(7, 8, 26, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 12px 0 !important;
+}
+.logo {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    background: linear-gradient(120deg, var(--wp-gold) 0%, var(--wp-gold-soft) 45%, #fff 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent !important;
+    animation: wpLogoShimmer 14s ease-in-out infinite alternate;
+    position: relative;
+    padding-left: 4px;
+}
+@keyframes wpLogoShimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Refined compare trigger — Vercel-style pill */
+.compare-trigger-btn {
+    border: 1px solid var(--wp-glass-bd) !important;
+    background: var(--wp-glass) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--wp-text) !important;
+    padding: 8px 16px !important;
+    border-radius: 999px !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01em !important;
+    transition: transform 0.4s var(--wp-ease), border-color 0.4s var(--wp-ease), box-shadow 0.4s var(--wp-ease), background 0.4s var(--wp-ease) !important;
+}
+.compare-trigger-btn:hover {
+    border-color: rgba(240, 192, 64, 0.45) !important;
+    color: var(--wp-gold) !important;
+    background: rgba(240, 192, 64, 0.06) !important;
+    box-shadow: 0 8px 30px rgba(240, 192, 64, 0.18), 0 0 0 1px rgba(240, 192, 64, 0.12) inset !important;
+}
+.compare-trigger-icon { font-size: 0.95rem; }
+
+/* Header search / dropdown — softer, more refined */
+.search-input,
+.filter-dropdown {
+    background: var(--wp-glass) !important;
+    border: 1px solid var(--wp-glass-bd) !important;
+    color: var(--wp-text) !important;
+    padding: 9px 18px !important;
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+    transition: all 0.35s var(--wp-ease) !important;
+}
+.search-input:focus,
+.filter-dropdown:focus {
+    border-color: rgba(240, 192, 64, 0.5) !important;
+    box-shadow: 0 0 0 4px rgba(240, 192, 64, 0.1) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+}
+.search-input::placeholder { color: var(--wp-text-dim); }
+
+/* ---------- 5. GLASS CARDS — three-tier hierarchy ---------- */
+/* Base surface. Override the legacy !important rules from above. */
+.glass-card {
+    background: var(--wp-glass) !important;
+    backdrop-filter: blur(18px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+    border: 1px solid var(--wp-glass-bd) !important;
+    border-radius: var(--wp-r-lg) !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.04) inset,
+        0 30px 60px -30px rgba(0, 0, 0, 0.55) !important;
+    transition:
+        transform 0.4s var(--wp-ease),
+        background 0.4s var(--wp-ease),
+        border-color 0.4s var(--wp-ease),
+        box-shadow 0.4s var(--wp-ease) !important;
+    position: relative;
+    overflow: hidden;
+}
+/* Subtle gradient border via pseudo-element — the Vercel hairline trick */
+.glass-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+        135deg,
+        rgba(240, 192, 64, 0.4) 0%,
+        rgba(139, 124, 255, 0.25) 40%,
+        rgba(255, 255, 255, 0.02) 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.45s var(--wp-ease);
+    pointer-events: none;
+}
+.glass-card:hover {
+    background: var(--wp-glass-elev) !important;
+    border-color: rgba(240, 192, 64, 0.2) !important;
+    transform: translateY(-4px);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.06) inset,
+        0 40px 80px -30px rgba(240, 192, 64, 0.2),
+        0 30px 80px -20px rgba(0, 0, 0, 0.55) !important;
+}
+.glass-card:hover::after { opacity: 1; }
+
+/* ---------- 6. COUNTRY CARDS — gradient-art tiles ---------- */
+/* The big homepage country picker. We replace the photographic
+   backgrounds with painterly gradient tiles that pulse subtly. */
+.country-card {
+    width: 360px !important;
+    height: 230px !important;
+    border-radius: var(--wp-r-lg) !important;
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.05) inset !important;
+    border: 1px solid var(--wp-glass-bd) !important;
+    overflow: hidden;
+    transition: transform 0.5s var(--wp-ease), box-shadow 0.5s var(--wp-ease), border-color 0.5s var(--wp-ease) !important;
+    background-color: var(--wp-bg-elev) !important;
+}
+
+/* USA — warm gold + ember tile */
+.country-card.country-usa {
+    background:
+        radial-gradient(circle at 25% 20%, rgba(255, 170, 80, 0.55) 0%, transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(255, 80, 90, 0.35) 0%, transparent 60%),
+        linear-gradient(135deg, #1a1330 0%, #2a1a3a 60%, #0e0a22 100%) !important;
+}
+/* UK — cool violet + cyan tile */
+.country-card.country-uk {
+    background:
+        radial-gradient(circle at 25% 30%, rgba(139, 124, 255, 0.55) 0%, transparent 55%),
+        radial-gradient(circle at 80% 75%, rgba(95, 209, 255, 0.35) 0%, transparent 60%),
+        linear-gradient(135deg, #0d122b 0%, #1a1840 60%, #06091f 100%) !important;
+}
+
+/* Aurora overlay — animated diagonal sweep that lives on top of the tile */
+.country-card-aurora {
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent 0deg,
+        rgba(255, 255, 255, 0.08) 60deg,
+        transparent 130deg,
+        rgba(240, 192, 64, 0.12) 200deg,
+        transparent 280deg,
+        rgba(139, 124, 255, 0.10) 330deg,
+        transparent 360deg
+    );
+    animation: wpAuroraSpin 24s linear infinite;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+@keyframes wpAuroraSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Subtle grid pattern overlay — Linear's signature */
+.country-card-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse at 50% 100%, #000 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 100%, #000 0%, transparent 75%);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.country-card.clickable .card-overlay {
+    background: linear-gradient(to top, rgba(4, 5, 15, 0.92) 0%, rgba(4, 5, 15, 0.18) 60%, transparent 100%) !important;
+    padding: 28px !important;
+}
+
+.country-flag-mark {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+    opacity: 0.95;
+}
+
+.country-card .country-name {
+    font-size: 1.55rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    color: #fff !important;
+    margin-bottom: 6px !important;
+}
+.country-card .explore-text {
+    color: var(--wp-gold) !important;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.01em !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.country-card .explore-text .arrow {
+    display: inline-block;
+    transition: transform 0.4s var(--wp-ease);
+}
+.country-card.clickable:hover {
+    transform: translateY(-8px) scale(1.01) !important;
+    border-color: rgba(240, 192, 64, 0.45) !important;
+    box-shadow:
+        0 40px 100px -30px rgba(240, 192, 64, 0.35),
+        0 30px 60px -20px rgba(0, 0, 0, 0.65) !important;
+}
+.country-card.clickable:hover .explore-text .arrow {
+    transform: translateX(6px);
+}
+
+/* Coming-soon cards refined */
+.coming-soon-card {
+    width: 360px !important;
+    height: 230px !important;
+    background: linear-gradient(145deg, rgba(15, 18, 40, 0.85) 0%, rgba(8, 10, 24, 0.85) 100%) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: var(--wp-r-lg) !important;
+    cursor: not-allowed !important;
+    opacity: 0.85 !important;
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55) !important;
+    transition: opacity 0.5s var(--wp-ease), transform 0.5s var(--wp-ease), border-color 0.5s var(--wp-ease) !important;
+}
+.coming-soon-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(240, 192, 64, 0.15) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: wpLockShimmer 5s linear infinite;
+    opacity: 0.5;
+    pointer-events: none;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1px;
+}
+@keyframes wpLockShimmer {
+    0%   { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+}
+.coming-soon-card:hover {
+    opacity: 1 !important;
+    border-color: rgba(240, 192, 64, 0.25) !important;
+}
+.coming-soon-pill {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: linear-gradient(135deg, var(--wp-gold) 0%, var(--wp-gold-soft) 100%);
+    color: #0a0a1a;
+    font-size: 0.62rem !important;
+    font-weight: 700 !important;
+    padding: 4px 11px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(240, 192, 64, 0.4);
+    z-index: 2;
+}
+.coming-soon-emoji {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+    transition: transform 0.5s var(--wp-ease);
+    z-index: 1;
+}
+.coming-soon-card:hover .coming-soon-emoji {
+    transform: scale(1.08) translateY(-2px);
+}
+.coming-soon-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: -0.02em;
+    z-index: 1;
+}
+
+/* ---------- 7. UNIVERSITY CARDS — gradient-bordered, cursor-aware ---------- */
+.uni-card {
+    border-radius: var(--wp-r-lg) !important;
+    border: 1px solid var(--wp-glass-bd) !important;
+    overflow: hidden;
+    background-color: var(--wp-bg-elev) !important;
+    background-blend-mode: normal;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.04) inset !important;
+    transition: transform 0.5s var(--wp-ease), border-color 0.5s var(--wp-ease), box-shadow 0.5s var(--wp-ease) !important;
+    position: relative;
+    isolation: isolate;
+}
+.uni-card-inner {
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(7, 8, 26, 0.35) 0%,
+            rgba(7, 8, 26, 0.65) 55%,
+            rgba(7, 8, 26, 0.92) 100%
+        ) !important;
+    transition: background 0.5s var(--wp-ease) !important;
+    padding: 28px !important;
+}
+/* Cursor-tracked gradient highlight overlay */
+.uni-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        400px circle at var(--wp-cx, 50%) var(--wp-cy, 50%),
+        rgba(240, 192, 64, 0.18) 0%,
+        rgba(240, 192, 64, 0) 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s var(--wp-ease);
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: screen;
+}
+.uni-card:hover { transform: translateY(-6px) !important; border-color: rgba(240, 192, 64, 0.35) !important; box-shadow: 0 50px 100px -30px rgba(240, 192, 64, 0.18), 0 30px 60px -20px rgba(0, 0, 0, 0.6) !important; }
+.uni-card:hover::before { opacity: 1; }
+.uni-card:hover .uni-card-inner {
+    background: linear-gradient(
+        to bottom,
+        rgba(7, 8, 26, 0.15) 0%,
+        rgba(7, 8, 26, 0.45) 55%,
+        rgba(7, 8, 26, 0.82) 100%
+    ) !important;
+}
+.uni-card-details h3 {
+    font-size: 1.32rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.18 !important;
+    color: #fff !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+    margin-bottom: 6px !important;
+}
+.uni-card-details p {
+    font-size: 0.86rem !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    margin-bottom: 18px !important;
+}
+.uni-card-details .data-point {
+    font-family: var(--wp-font-mono) !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase;
+}
+
+/* ---------- 8. BUTTONS ---------- */
+.btn {
+    background: linear-gradient(135deg, var(--wp-gold) 0%, var(--wp-gold-soft) 100%) !important;
+    color: #0a0a1a !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    padding: 11px 22px !important;
+    font-size: 0.92rem !important;
+    letter-spacing: -0.005em !important;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(240, 192, 64, 0.25), 0 1px 0 rgba(255, 255, 255, 0.3) inset !important;
+    transition: transform 0.35s var(--wp-ease), box-shadow 0.35s var(--wp-ease), filter 0.35s var(--wp-ease) !important;
+    position: relative;
+    overflow: hidden;
+}
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
+    transform: translateX(-120%);
+    transition: transform 0.7s var(--wp-ease);
+    pointer-events: none;
+}
+.btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 40px rgba(240, 192, 64, 0.4), 0 1px 0 rgba(255, 255, 255, 0.4) inset !important;
+    filter: brightness(1.03);
+}
+.btn:hover::after { transform: translateX(120%); }
+
+.btn-outline-gold {
+    background: rgba(240, 192, 64, 0.04) !important;
+    border: 1px solid rgba(240, 192, 64, 0.4) !important;
+    color: var(--wp-gold) !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.35s var(--wp-ease) !important;
+}
+.btn-outline-gold:hover {
+    background: rgba(240, 192, 64, 0.12) !important;
+    border-color: var(--wp-gold) !important;
+    box-shadow: 0 12px 40px rgba(240, 192, 64, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+/* Floating back button — slimmer, more refined */
+.btn-back.floating {
+    background: var(--wp-glass) !important;
+    backdrop-filter: blur(20px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+    border: 1px solid var(--wp-glass-bd) !important;
+    color: var(--wp-text) !important;
+    padding: 9px 20px !important;
+    border-radius: 999px !important;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.01em !important;
+    transition: all 0.4s var(--wp-ease) !important;
+}
+.btn-back.floating:hover {
+    background: rgba(240, 192, 64, 0.08) !important;
+    border-color: rgba(240, 192, 64, 0.4) !important;
+    color: var(--wp-gold) !important;
+    transform: translateX(-4px) !important;
+    box-shadow: 0 8px 30px rgba(240, 192, 64, 0.18) !important;
+}
+
+/* ---------- 9. DATA POINTS (uni-detail hero) ---------- */
+.data-point {
+    padding: 22px !important;
+    border-radius: var(--wp-r) !important;
+}
+.data-label {
+    font-family: var(--wp-font) !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.12em !important;
+    color: var(--wp-text-dim) !important;
+    margin-bottom: 8px !important;
+    font-weight: 500;
+}
+.data-value {
+    font-family: var(--wp-font-mono) !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--wp-text) !important;
+}
+.data-value .city-link {
+    font-family: var(--wp-font) !important;
+}
+
+/* ---------- 10. INFO CARDS (uni-detail body) ---------- */
+.uni-info-card {
+    padding: 32px !important;
+    border-radius: var(--wp-r-lg) !important;
+}
+.uni-info-card h3 {
+    font-family: var(--wp-font) !important;
+    color: var(--wp-text) !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    border-bottom: 1px solid var(--wp-glass-bd) !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 18px !important;
+    position: relative;
+}
+.uni-info-card h3::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--wp-gold), transparent);
+}
+.uni-info-card p,
+.uni-info-card ul {
+    color: var(--wp-text-muted) !important;
+    font-size: 0.95rem !important;
+    line-height: 1.65 !important;
+}
+.read-more-indicator {
+    color: var(--wp-gold) !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01em !important;
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ---------- 11. PROGRAM CARDS & CAREER CHIPS ---------- */
+.program-card,
+.list-item {
+    padding: 26px !important;
+    border-radius: var(--wp-r-lg) !important;
+}
+.program-card-header h4,
+.list-item h4 {
+    color: var(--wp-gold) !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+}
+.program-card-header .meta,
+.list-item .meta {
+    font-family: var(--wp-font-mono) !important;
+    font-size: 0.78rem !important;
+    color: var(--wp-text-dim) !important;
+    letter-spacing: 0.02em !important;
+}
+.program-card-header p,
+.list-item p {
+    color: var(--wp-text-muted) !important;
+    font-size: 0.93rem !important;
+    line-height: 1.6 !important;
+    margin-top: 8px !important;
+}
+.expanded-detail-label {
+    font-size: 0.72rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.12em !important;
+    color: var(--wp-gold) !important;
+    font-weight: 600 !important;
+    margin-bottom: 6px !important;
+}
+.expanded-detail-text {
+    color: var(--wp-text) !important;
+    font-size: 0.93rem !important;
+    line-height: 1.55;
+}
+.career-chip {
+    background: rgba(240, 192, 64, 0.08) !important;
+    border: 1px solid rgba(240, 192, 64, 0.35) !important;
+    color: var(--wp-gold) !important;
+    padding: 5px 12px !important;
+    border-radius: 999px !important;
+    font-size: 0.72rem !important;
+    font-family: var(--wp-font-mono) !important;
+    letter-spacing: 0.02em !important;
+    transition: all 0.3s var(--wp-ease);
+}
+.career-chip:hover {
+    background: rgba(240, 192, 64, 0.16) !important;
+    transform: translateY(-1px);
+}
+
+/* ---------- 12. TABS — animated indicator ---------- */
+.tab-controls {
+    border-bottom: 1px solid var(--wp-glass-bd) !important;
+}
+.tab-btn {
+    font-size: 0.92rem !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.005em !important;
+    color: var(--wp-text-dim) !important;
+    transition: color 0.3s var(--wp-ease) !important;
+}
+.tab-btn:hover { color: var(--wp-text) !important; }
+.tab-btn.active { color: var(--wp-text) !important; }
+.tab-btn::after {
+    background: linear-gradient(90deg, var(--wp-gold), var(--wp-violet)) !important;
+    height: 2px !important;
+    border-radius: 2px;
+    bottom: -1px !important;
+}
+
+/* ---------- 13. EDITORIAL & GALLERY ---------- */
+.editorial-section {
+    background: var(--wp-glass) !important;
+    border: 1px solid var(--wp-glass-bd) !important;
+    border-radius: var(--wp-r-lg) !important;
+    padding: 36px !important;
+}
+.editorial-heading {
+    font-size: 1.7rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.03em !important;
+    color: var(--wp-text) !important;
+}
+.gallery-card,
+.editorial-card,
+.uk-half-card {
+    border-radius: var(--wp-r-lg) !important;
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.65), 0 1px 0 rgba(255, 255, 255, 0.04) inset !important;
+}
+.gallery-caption-overlay {
+    background: linear-gradient(to top, rgba(4, 5, 15, 0.92) 0%, rgba(4, 5, 15, 0) 100%) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.005em !important;
+    font-size: 1.05rem !important;
+}
+
+/* ---------- 14. MODAL ---------- */
+.modal-overlay {
+    background: rgba(4, 5, 15, 0.78) !important;
+}
+.modal-content {
+    background: rgba(11, 13, 36, 0.85) !important;
+    border: 1px solid var(--wp-glass-bd-hi) !important;
+    border-radius: var(--wp-r-xl) !important;
+}
+#modal-title {
+    color: var(--wp-text) !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    border-bottom: 1px solid var(--wp-glass-bd) !important;
+    position: relative;
+}
+#modal-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--wp-gold), transparent);
+}
+
+/* ---------- 15. UNIVERSITY HERO — keep photo, treat it ---------- */
+/* The body's background-image is set inline by JS for uni-detail and
+   city pages — we add a grain + gradient vignette via the existing
+   #page-overlay element (controlled by JS) so the photo reads as
+   "designed" rather than "stock". The grain layer already overlays
+   everything globally; we add a vignette here. */
+.uni-hero {
+    margin-bottom: 28px !important;
+}
+.uni-hero-title {
+    font-size: clamp(2.2rem, 6vw, 4.6rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.04 !important;
+    background: linear-gradient(
+        120deg,
+        #ffffff 0%,
+        #ffffff 50%,
+        var(--wp-gold-soft) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none !important;
+    margin: 0 0 36px 0 !important;
+}
+
+/* ---------- 16. COMPARE PANEL CHROME ---------- */
+.compare-panel {
+    background: rgba(7, 9, 24, 0.85) !important;
+    backdrop-filter: blur(28px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
+    border-left: 1px solid var(--wp-glass-bd-hi) !important;
+}
+.compare-heading {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+    background: linear-gradient(120deg, #fff 0%, var(--wp-gold-soft) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent !important;
+}
+
+/* ---------- 17. COST CALCULATOR REFINEMENT ---------- */
+.glass-card .calc-results-pill,
+#calc-results h4 {
+    font-family: var(--wp-font) !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* ---------- 18. FOOTER ---------- */
+.site-footer {
+    border-top: 1px solid var(--wp-glass-bd) !important;
+    color: var(--wp-text-dim) !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.02em !important;
+    padding: 36px 0 !important;
+    position: relative;
+}
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--wp-gold), transparent);
+}
+
+/* ---------- 19. SCROLL-REVEAL ---------- */
+/* Default (no JS, or before JS marks page as ready) — fully visible */
+.wp-reveal {
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity 0.85s var(--wp-ease),
+        transform 0.85s var(--wp-ease);
+}
+/* Once JS marks page ready, un-revealed elements hide until they
+   intersect the viewport. */
+body.wp-ready .wp-reveal:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(28px);
+}
+body.wp-ready .wp-reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+}
+
+/* Auto-staggered children when a parent gets [data-wp-stagger] */
+[data-wp-stagger].is-revealed > * {
+    animation: wpStaggerIn 0.8s var(--wp-ease) both;
+}
+[data-wp-stagger].is-revealed > *:nth-child(1) { animation-delay: 0.05s; }
+[data-wp-stagger].is-revealed > *:nth-child(2) { animation-delay: 0.12s; }
+[data-wp-stagger].is-revealed > *:nth-child(3) { animation-delay: 0.19s; }
+[data-wp-stagger].is-revealed > *:nth-child(4) { animation-delay: 0.26s; }
+[data-wp-stagger].is-revealed > *:nth-child(5) { animation-delay: 0.33s; }
+[data-wp-stagger].is-revealed > *:nth-child(6) { animation-delay: 0.4s; }
+@keyframes wpStaggerIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- 20. SCROLLBAR ---------- */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(240, 192, 64, 0.25) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: rgba(240, 192, 64, 0.2);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(240, 192, 64, 0.4); background-clip: content-box; }
+
+/* ---------- 21. TEXT LINKS (city link refinement) ---------- */
+a.city-link {
+    background: linear-gradient(90deg, var(--wp-gold) 0%, var(--wp-gold-soft) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600 !important;
+    letter-spacing: -0.005em;
+}
+a.city-link::after { height: 1.5px !important; background: linear-gradient(90deg, var(--wp-gold), var(--wp-violet)) !important; }
+
+/* ---------- 22. MOBILE ADJUSTMENTS ---------- */
+@media (max-width: 768px) {
+    .country-card,
+    .coming-soon-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 200px !important;
+    }
+    .uni-hero-title { font-size: 2rem !important; }
+    .page-header h1 { font-size: 2.2rem !important; }
+    .wp-mesh-blob { filter: blur(80px); }
+}
+@media (max-width: 480px) {
+    body { font-size: 14.5px; }
+    .country-card,
+    .coming-soon-card { height: 180px !important; }
+    .coming-soon-emoji { font-size: 3.4rem; }
+}
+
+/* ---------- 23. ACCESSIBILITY ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .wp-mesh-blob,
+    .wp-mesh-halo,
+    .country-card-aurora,
+    .logo,
+    .page-header h1,
+    .coming-soon-card::before {
+        animation: none !important;
+    }
+    .wp-spotlight { display: none !important; }
+}
+
+/* ---------- 24. AI FUTURE OVERLAY — refined inner ---------- */
+/* Keep the gate animation as-is; only refine the content layer
+   typography and tile look. */
+.ai-future-content {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(40, 32, 80, 0.5) 0%, rgba(7, 8, 26, 0.95) 50%, #04050f 100%) !important;
+}
+.ai-future-heading {
+    font-family: var(--wp-font) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.045em !important;
+}
+.ai-future-eyebrow-text {
+    font-family: var(--wp-font) !important;
+    letter-spacing: 0.25em !important;
+}
+.ai-future-uni-pill-text {
+    letter-spacing: 0.12em !important;
+}
+
+/* End — WAYPOINT 2026 REDESIGN LAYER */
+
+
+/* ======================================================================
+   WAYPOINT 2026 — LIQUID METAL LAYER (v2)
+   ----------------------------------------------------------------------
+   The first redesign pass was too restrained. This layer cranks the
+   "alive" feel up to where the reference asks for:
+     • Country cards get a real iridescent chrome blob (cyan â†’ magenta
+       â†’ gold â†’ violet) morphing and rotating inside them, with an SVG
+       feDisplacementMap filter giving it that signature liquid look.
+     • Homepage backdrop mesh blobs get bigger, more saturated, and pick
+       up the same liquid displacement so the whole page feels like it's
+       breathing under glass.
+     • Body gets an iridescent shifting overlay so the dark void isn't
+       so flat between the blobs.
+====================================================================== */
+
+/* ---------- A. CRANK UP THE BACKDROP ---------- */
+/* Bigger, brighter, more saturated mesh blobs. Apply the soft liquid
+   filter so they ripple continuously instead of just translating. */
+.wp-mesh-blob {
+    filter: blur(90px) url(#wp-liquid-soft) !important;
+    opacity: 1 !important;
+}
+.wp-mesh-blob-1 {
+    width: 70vw !important; height: 70vw !important;
+    background: radial-gradient(circle, rgba(255, 180, 90, 0.85) 0%, rgba(255, 122, 184, 0.4) 35%, rgba(255, 170, 80, 0) 70%) !important;
+}
+.wp-mesh-blob-2 {
+    width: 65vw !important; height: 65vw !important;
+    background: radial-gradient(circle, rgba(139, 124, 255, 0.8) 0%, rgba(185, 174, 255, 0.4) 35%, rgba(139, 124, 255, 0) 70%) !important;
+}
+.wp-mesh-blob-3 {
+    width: 60vw !important; height: 60vw !important;
+    background: radial-gradient(circle, rgba(95, 209, 255, 0.65) 0%, rgba(77, 210, 193, 0.35) 35%, rgba(95, 209, 255, 0) 70%) !important;
+}
+.wp-mesh-blob-4 {
+    width: 55vw !important; height: 55vw !important;
+    background: radial-gradient(circle, rgba(255, 122, 184, 0.6) 0%, rgba(255, 216, 112, 0.35) 35%, rgba(255, 122, 184, 0) 70%) !important;
+}
+
+/* Body iridescent shimmer — a fifth, page-wide gradient sweep that
+   slowly drifts across the whole viewport so even the negative space
+   between blobs visibly breathes. */
+.wp-mesh::after {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    background:
+        conic-gradient(
+            from 0deg at 50% 50%,
+            rgba(95, 209, 255, 0.10) 0deg,
+            rgba(185, 174, 255, 0.12) 60deg,
+            rgba(255, 122, 184, 0.10) 120deg,
+            rgba(255, 216, 112, 0.10) 180deg,
+            rgba(77, 210, 193, 0.10) 240deg,
+            rgba(139, 124, 255, 0.12) 300deg,
+            rgba(95, 209, 255, 0.10) 360deg
+        );
+    filter: blur(100px);
+    mix-blend-mode: screen;
+    animation: wpIrisDrift 60s linear infinite;
+    pointer-events: none;
+}
+@keyframes wpIrisDrift {
+    from { transform: rotate(0deg) scale(1.05); }
+    to   { transform: rotate(360deg) scale(1.05); }
+}
+
+/* Strengthen the conic halo too */
+.wp-mesh-halo {
+    opacity: 0.9 !important;
+    filter: blur(60px) !important;
+}
+
+/* ---------- B. COUNTRY CARD LIQUID METAL ---------- */
+/* The iridescent chrome blob that fills the centre of each active
+   country card. Two stacked layers + a wandering specular shine
+   together produce the "soap bubble / mercury blob" look from the
+   user's reference. */
+
+.country-card {
+    /* Push the card into its own stacking context so the liquid layers
+       cannot bleed onto neighbouring cards. */
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* The card body is much darker now so the iridescent blob pops.
+   We override the warm/cool tile gradients to keep just the dark base. */
+.country-card.country-usa,
+.country-card.country-uk {
+    background:
+        radial-gradient(circle at 50% 50%, rgba(20, 16, 40, 0.6) 0%, rgba(6, 8, 22, 0.95) 70%),
+        linear-gradient(135deg, #0a0c20 0%, #050613 100%) !important;
+}
+
+/* Primary liquid blob — the big iridescent shape */
+.country-card-liquid {
+    position: absolute;
+    top: -10%; left: -10%;
+    width: 120%; height: 120%;
+    border-radius: 60% 40% 50% 70% / 50% 60% 70% 40%;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        #5fd1ff  0%,
+        #b9aeff 14%,
+        #ff7ab8 28%,
+        #ffd870 42%,
+        #ff9d5a 56%,
+        #4dd2c1 70%,
+        #8b7cff 84%,
+        #5fd1ff 100%
+    );
+    filter: url(#wp-liquid) blur(8px) saturate(1.6) brightness(1.05);
+    -webkit-filter: blur(8px) saturate(1.6) brightness(1.05);
+    mix-blend-mode: screen;
+    opacity: 0.7;
+    pointer-events: none;
+    transform-origin: 50% 50%;
+    animation:
+        wpLiquidMorph 12s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate,
+        wpLiquidSpin 26s linear infinite;
+    z-index: 0;
+}
+
+/* Secondary liquid layer — same blob, different rotation speed and
+   gradient angle, smaller and offset, so the two layers cross over
+   each other creating that "interference pattern" look real iridescent
+   surfaces have. */
+.country-card-liquid-2 {
+    top: 10% !important; left: 5% !important;
+    width: 90% !important; height: 90% !important;
+    border-radius: 40% 60% 70% 30% / 60% 30% 70% 40% !important;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        #ffd870  0%,
+        #ff7ab8 18%,
+        #8b7cff 36%,
+        #5fd1ff 54%,
+        #4dd2c1 72%,
+        #b9aeff 90%,
+        #ffd870 100%
+    ) !important;
+    opacity: 0.55 !important;
+    filter: url(#wp-liquid-soft) blur(10px) saturate(1.4) !important;
+    -webkit-filter: blur(10px) saturate(1.4) !important;
+    animation:
+        wpLiquidMorph2 16s cubic-bezier(0.5, 0, 0.5, 1) infinite alternate,
+        wpLiquidSpinReverse 34s linear infinite !important;
+}
+
+/* Wandering specular highlight — the "shiny" spot on chrome.
+   Slowly drifts around the blob so the surface looks like it's
+   catching different light sources as it moves. */
+.country-card-shine {
+    position: absolute;
+    top: 20%; left: 25%;
+    width: 35%; height: 28%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(255, 255, 255, 0.3) 25%,
+        rgba(255, 255, 255, 0) 65%
+    );
+    filter: blur(14px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 1;
+    animation: wpShineWander 11s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+    opacity: 0.9;
+}
+
+/* Aurora/grid sit ABOVE the blob to keep the geometric pattern visible
+   over the iridescent paint. */
+.country-card-aurora,
+.country-card-grid {
+    z-index: 2;
+}
+.country-card-aurora {
+    mix-blend-mode: overlay !important;
+    opacity: 0.6;
+}
+.country-card-grid {
+    opacity: 0.35 !important;
+}
+
+/* Text overlay sits on top of everything */
+.country-card .card-overlay {
+    z-index: 3;
+    background: linear-gradient(
+        to top,
+        rgba(4, 5, 15, 0.92) 0%,
+        rgba(4, 5, 15, 0.45) 35%,
+        rgba(4, 5, 15, 0) 75%
+    ) !important;
+}
+
+/* Coming-soon cards stay as is (no liquid blob) — they're locked. */
+
+/* Hover: punch the saturation and slow the morphing for a moment of
+   "the liquid pauses to catch the light". */
+.country-card.clickable:hover .country-card-liquid {
+    opacity: 0.85;
+    filter: url(#wp-liquid) blur(6px) saturate(1.8) brightness(1.15);
+    -webkit-filter: blur(6px) saturate(1.8) brightness(1.15);
+}
+.country-card.clickable:hover .country-card-shine {
+    opacity: 1;
+    filter: blur(10px);
+}
+
+/* ---------- C. KEYFRAMES ---------- */
+@keyframes wpLiquidMorph {
+    0%   { border-radius: 60% 40% 50% 70% / 50% 60% 70% 40%; }
+    20%  { border-radius: 40% 60% 70% 30% / 60% 40% 60% 50%; }
+    40%  { border-radius: 70% 30% 40% 60% / 30% 70% 40% 60%; }
+    60%  { border-radius: 50% 70% 30% 50% / 70% 30% 60% 40%; }
+    80%  { border-radius: 30% 60% 50% 70% / 40% 50% 70% 60%; }
+    100% { border-radius: 60% 40% 50% 70% / 40% 60% 50% 70%; }
+}
+@keyframes wpLiquidMorph2 {
+    0%   { border-radius: 40% 60% 70% 30% / 60% 30% 70% 40%; }
+    25%  { border-radius: 70% 30% 50% 60% / 40% 60% 30% 70%; }
+    50%  { border-radius: 30% 70% 40% 60% / 60% 40% 70% 30%; }
+    75%  { border-radius: 60% 40% 70% 30% / 30% 70% 40% 60%; }
+    100% { border-radius: 50% 50% 60% 40% / 70% 30% 50% 60%; }
+}
+@keyframes wpLiquidSpin {
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
+}
+@keyframes wpLiquidSpinReverse {
+    from { transform: rotate(360deg); }
+    to   { transform: rotate(0deg);   }
+}
+@keyframes wpShineWander {
+    0%   { transform: translate(0%,   0%)   scale(1);    opacity: 0.85; }
+    25%  { transform: translate(40%, 30%)   scale(1.15); opacity: 1;    }
+    50%  { transform: translate(80%, 80%)   scale(0.9);  opacity: 0.7;  }
+    75%  { transform: translate(30%, 110%)  scale(1.1);  opacity: 0.95; }
+    100% { transform: translate(-10%, 60%)  scale(1);    opacity: 0.85; }
+}
+
+/* ---------- D. UNIVERSITY CARDS — same liquid treatment behind them ----------
+   The original screenshots show uni-cards (MIT, Harvard etc) with photos.
+   Photos stay (they're content), but we add a subtle iridescent glow
+   that leaks out behind each card on hover, giving the same alive feel. */
+.uni-card {
+    position: relative;
+}
+.uni-card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+        from var(--wp-card-angle, 0deg),
+        rgba(95, 209, 255, 0.5),
+        rgba(139, 124, 255, 0.5),
+        rgba(255, 122, 184, 0.5),
+        rgba(255, 216, 112, 0.5),
+        rgba(95, 209, 255, 0.5)
+    );
+    z-index: -1;
+    opacity: 0;
+    filter: blur(14px);
+    transition: opacity 0.5s var(--wp-ease);
+    pointer-events: none;
+    animation: wpCardConicSpin 8s linear infinite;
+}
+.uni-card:hover::after { opacity: 0.55; }
+@keyframes wpCardConicSpin {
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
+}
+
+/* ---------- E. MOBILE — keep the blobs but lighten the load ---------- */
+@media (max-width: 768px) {
+    .country-card-liquid,
+    .country-card-liquid-2 {
+        filter: blur(12px) saturate(1.5) !important;
+        -webkit-filter: blur(12px) saturate(1.5) !important;
+    }
+    .wp-mesh-blob {
+        filter: blur(70px) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .country-card-liquid,
+    .country-card-liquid-2,
+    .country-card-shine,
+    .wp-mesh::after,
+    .uni-card::after {
+        animation: none !important;
+    }
+}
+
+/* End — WAYPOINT LIQUID METAL LAYER v2 */
+
+
+/* ======================================================================
+   WAYPOINT 2026 — GOLDEN LIQUID v3
+   ----------------------------------------------------------------------
+   User direction: the rainbow iridescent was too colourful. Re-paint
+   ALL liquid surfaces in a single warm golden palette so the page reads
+   as one cohesive "molten gold" world. Country card blobs and the new
+   hero orb share the same gradient — they should feel like the same
+   substance, just at different sizes.
+====================================================================== */
+
+/* ---------- A. HERO LIQUID ORB ---------- */
+/* Big, dramatic, golden. Lives inside .page-header behind the headline.
+   Two stacked discs (different speeds, different gradient angles) with
+   a wandering specular and an outer glow halo. The headline sits on
+   top via z-index. */
+
+.page-header {
+    position: relative;
+    overflow: visible;
+    z-index: 0;
+}
+
+/* Lift the h1 / subheading above the orb. */
+.page-header h1,
+.page-header .subheading {
+    position: relative;
+    z-index: 3;
+}
+
+/* Soft dark radial vignette directly behind the text so the white-to-gold
+   headline never washes out over the brightest part of the orb. */
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 110%;
+    height: 75%;
+    background: radial-gradient(
+        ellipse at 50% 35%,
+        rgba(4, 5, 15, 0.55) 0%,
+        rgba(4, 5, 15, 0.2) 40%,
+        transparent 70%
+    );
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(20px);
+}
+
+.wp-hero-orb {
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(480px, 70vw, 880px);
+    height: clamp(420px, 60vw, 720px);
+    z-index: 0;
+    pointer-events: none;
+    isolation: isolate;
+}
+
+/* Outer glow halo — a soft golden bloom emanating around the orb
+   so the whole hero area feels lit from within. */
+.wp-hero-orb-glow {
+    position: absolute;
+    inset: -15%;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(255, 200, 90, 0.45) 0%, rgba(240, 192, 64, 0.18) 30%, transparent 65%);
+    filter: blur(50px);
+    animation: wpHeroOrbGlow 9s ease-in-out infinite alternate;
+    z-index: 0;
+}
+@keyframes wpHeroOrbGlow {
+    0%   { opacity: 0.7;  transform: scale(1);     }
+    100% { opacity: 1;    transform: scale(1.12);  }
+}
+
+/* Primary orb disc — the big iridescent-gold gradient */
+.wp-hero-orb-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.wp-hero-orb-a {
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        #fff3c4   0%,
+        #ffd870  14%,
+        #f0c040  28%,
+        #ff9d5a  42%,
+        #d9a82e  56%,
+        #ffd870  70%,
+        #ffe89a  84%,
+        #fff3c4 100%
+    );
+    filter: url(#wp-liquid) blur(14px) saturate(1.5) brightness(1.1);
+    -webkit-filter: blur(14px) saturate(1.5) brightness(1.1);
+    opacity: 0.92;
+    animation:
+        wpHeroOrbMorph 18s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate,
+        wpHeroOrbSpin 42s linear infinite;
+}
+
+.wp-hero-orb-b {
+    inset: 6% !important;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        #ffe89a   0%,
+        #ff9d5a  18%,
+        #f0c040  36%,
+        #fff3c4  54%,
+        #ffd870  72%,
+        #d9a82e  90%,
+        #ffe89a 100%
+    );
+    filter: url(#wp-liquid-soft) blur(18px) saturate(1.4) brightness(1.08);
+    -webkit-filter: blur(18px) saturate(1.4) brightness(1.08);
+    opacity: 0.75;
+    animation:
+        wpHeroOrbMorph2 24s cubic-bezier(0.5, 0, 0.5, 1) infinite alternate,
+        wpHeroOrbSpinReverse 56s linear infinite;
+}
+
+/* Specular shines — two wandering bright spots that look like the orb
+   is catching different light sources as it churns. */
+.wp-hero-orb-shine {
+    position: absolute;
+    top: 18%; left: 22%;
+    width: 32%; height: 26%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 245, 210, 0.5) 25%,
+        rgba(255, 245, 210, 0) 65%
+    );
+    filter: blur(22px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 2;
+    animation: wpHeroOrbShine 13s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+}
+.wp-hero-orb-shine-2 {
+    top: auto !important;
+    bottom: 22%;
+    left: auto !important;
+    right: 25%;
+    width: 22% !important;
+    height: 18% !important;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 230, 160, 0.75) 0%,
+        rgba(255, 230, 160, 0) 70%
+    ) !important;
+    animation: wpHeroOrbShine2 17s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate !important;
+}
+
+@keyframes wpHeroOrbMorph {
+    0%   { border-radius: 60% 40% 50% 70% / 50% 60% 70% 40%; }
+    20%  { border-radius: 40% 60% 70% 30% / 60% 40% 60% 50%; }
+    40%  { border-radius: 70% 30% 40% 60% / 30% 70% 40% 60%; }
+    60%  { border-radius: 50% 70% 30% 50% / 70% 30% 60% 40%; }
+    80%  { border-radius: 30% 60% 50% 70% / 40% 50% 70% 60%; }
+    100% { border-radius: 60% 40% 50% 70% / 40% 60% 50% 70%; }
+}
+@keyframes wpHeroOrbMorph2 {
+    0%   { border-radius: 40% 60% 70% 30% / 60% 30% 70% 40%; }
+    33%  { border-radius: 70% 30% 50% 60% / 40% 60% 30% 70%; }
+    66%  { border-radius: 30% 70% 40% 60% / 60% 40% 70% 30%; }
+    100% { border-radius: 50% 50% 60% 40% / 70% 30% 50% 60%; }
+}
+@keyframes wpHeroOrbSpin        { from { transform: rotate(0deg);   } to { transform: rotate(360deg); } }
+@keyframes wpHeroOrbSpinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg);   } }
+@keyframes wpHeroOrbShine {
+    0%   { transform: translate(0%,   0%)   scale(1);    opacity: 0.85; }
+    33%  { transform: translate(50%, 35%)   scale(1.25); opacity: 1;    }
+    66%  { transform: translate(80%, 110%)  scale(0.8);  opacity: 0.6;  }
+    100% { transform: translate(-15%, 60%)  scale(1.1);  opacity: 0.95; }
+}
+@keyframes wpHeroOrbShine2 {
+    0%   { transform: translate(0%,   0%)   scale(1);    opacity: 0.7;  }
+    50%  { transform: translate(-60%, -40%) scale(1.3);  opacity: 1;    }
+    100% { transform: translate(20%,  -80%) scale(0.9);  opacity: 0.8;  }
+}
+
+/* ---------- B. COUNTRY CARD BLOBS — match the gold ---------- */
+/* Re-paint the iridescent rainbow blobs from v2 to the same molten-gold
+   palette as the hero orb so the whole homepage reads as one substance. */
+
+.country-card-liquid {
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        #fff3c4   0%,
+        #ffd870  14%,
+        #f0c040  28%,
+        #ff9d5a  42%,
+        #d9a82e  56%,
+        #ffd870  70%,
+        #ffe89a  84%,
+        #fff3c4 100%
+    ) !important;
+    filter: url(#wp-liquid) blur(8px) saturate(1.5) brightness(1.08) !important;
+    -webkit-filter: blur(8px) saturate(1.5) brightness(1.08) !important;
+    opacity: 0.78 !important;
+}
+
+.country-card-liquid-2 {
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        #ffe89a   0%,
+        #ff9d5a  18%,
+        #f0c040  36%,
+        #fff3c4  54%,
+        #ffd870  72%,
+        #d9a82e  90%,
+        #ffe89a 100%
+    ) !important;
+    filter: url(#wp-liquid-soft) blur(10px) saturate(1.4) brightness(1.05) !important;
+    -webkit-filter: blur(10px) saturate(1.4) brightness(1.05) !important;
+    opacity: 0.6 !important;
+}
+
+/* The dark base of USA + UK tiles becomes the same warm-but-dark base
+   so the gold blob has a unified backdrop on both cards. */
+.country-card.country-usa,
+.country-card.country-uk {
+    background:
+        radial-gradient(circle at 50% 50%, rgba(28, 22, 12, 0.7) 0%, rgba(8, 7, 4, 0.96) 70%),
+        linear-gradient(135deg, #0d0a05 0%, #06050b 100%) !important;
+}
+
+/* Aurora overlay tinted gold too instead of multi-colour */
+.country-card-aurora {
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent 0deg,
+        rgba(255, 232, 154, 0.10) 60deg,
+        transparent 130deg,
+        rgba(240, 192, 64, 0.18) 200deg,
+        transparent 280deg,
+        rgba(255, 200, 90, 0.12) 330deg,
+        transparent 360deg
+    ) !important;
+}
+
+/* Hover boost — same as v2 but tuned for gold */
+.country-card.clickable:hover .country-card-liquid {
+    opacity: 0.95 !important;
+    filter: url(#wp-liquid) blur(6px) saturate(1.7) brightness(1.18) !important;
+    -webkit-filter: blur(6px) saturate(1.7) brightness(1.18) !important;
+}
+
+/* ---------- C. BACKDROP MESH — warm gold-leaning ---------- */
+/* Tone the page-wide mesh blobs toward gold/cream too so the body
+   colour doesn't fight the foreground. Keep a hint of violet for depth. */
+.wp-mesh-blob-1 {
+    background: radial-gradient(circle, rgba(255, 200, 90, 0.85) 0%, rgba(240, 192, 64, 0.4) 35%, rgba(255, 170, 80, 0) 70%) !important;
+}
+.wp-mesh-blob-2 {
+    background: radial-gradient(circle, rgba(255, 232, 154, 0.7) 0%, rgba(240, 192, 64, 0.32) 35%, rgba(255, 200, 90, 0) 70%) !important;
+}
+.wp-mesh-blob-3 {
+    background: radial-gradient(circle, rgba(255, 157, 90, 0.55) 0%, rgba(255, 122, 84, 0.25) 35%, rgba(255, 122, 84, 0) 70%) !important;
+}
+.wp-mesh-blob-4 {
+    background: radial-gradient(circle, rgba(217, 168, 46, 0.5) 0%, rgba(217, 168, 46, 0.25) 35%, rgba(217, 168, 46, 0) 70%) !important;
+}
+
+/* Also re-tone the page-wide iridescent conic so it's gold-dominant. */
+.wp-mesh::after {
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        rgba(255, 232, 154, 0.10) 0deg,
+        rgba(255, 200, 90, 0.14) 60deg,
+        rgba(240, 192, 64, 0.12) 120deg,
+        rgba(255, 157, 90, 0.10) 180deg,
+        rgba(217, 168, 46, 0.10) 240deg,
+        rgba(255, 232, 154, 0.12) 300deg,
+        rgba(255, 232, 154, 0.10) 360deg
+    ) !important;
+}
+
+/* Halo: warm gold */
+.wp-mesh-halo {
+    background: conic-gradient(
+        from 0deg,
+        rgba(255, 200, 90, 0.10) 0deg,
+        rgba(240, 192, 64, 0.14) 90deg,
+        rgba(255, 232, 154, 0.10) 180deg,
+        rgba(217, 168, 46, 0.08) 270deg,
+        rgba(255, 200, 90, 0.10) 360deg
+    ) !important;
+}
+
+/* ---------- D. UNI CARDS — untouched as requested ---------- */
+/* Per user direction we DO NOT change the uni-card photo backgrounds.
+   But we do remove the rainbow conic ring we added in v2 because it
+   was iridescent — replace with a warm gold ring so it stays cohesive. */
+.uni-card::after {
+    background: conic-gradient(
+        from var(--wp-card-angle, 0deg),
+        rgba(255, 232, 154, 0.45),
+        rgba(240, 192, 64, 0.5),
+        rgba(255, 200, 90, 0.45),
+        rgba(255, 232, 154, 0.5),
+        rgba(240, 192, 64, 0.45)
+    ) !important;
+}
+
+/* ---------- E. MOBILE ---------- */
+@media (max-width: 768px) {
+    .wp-hero-orb {
+        width: clamp(320px, 90vw, 520px);
+        height: clamp(280px, 70vw, 440px);
+        top: 62%;
+    }
+    .wp-hero-orb-a { filter: blur(16px) saturate(1.5) !important; -webkit-filter: blur(16px) saturate(1.5) !important; }
+    .wp-hero-orb-b { filter: blur(20px) saturate(1.4) !important; -webkit-filter: blur(20px) saturate(1.4) !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wp-hero-orb-a,
+    .wp-hero-orb-b,
+    .wp-hero-orb-shine,
+    .wp-hero-orb-glow {
+        animation: none !important;
+    }
+}
+
+/* End — WAYPOINT GOLDEN LIQUID v3 */
+
+
+/* ======================================================================
+   FINAL OVERRIDE — clean solid dark background
+   ----------------------------------------------------------------------
+   All decorative background systems (mesh blobs, hero orb, grain,
+   spotlight, supernova intro, stars, galaxy, nebula) have been removed
+   from the HTML. This block guarantees:
+     • Body shows a solid #0a0a0f near-black
+     • Any leftover decorative background nodes are hidden defensively
+     • No animation, no gradient, no floating element on the homepage
+   ====================================================================== */
+
+body {
+    background: #0a0a0f !important;
+    background-color: #0a0a0f !important;
+    background-image: none !important;
+}
+
+/* Defensive: hide any decorative background node that might still be
+   referenced by older CSS rules — they no longer exist in the HTML
+   but this prevents any future re-introduction from showing through. */
+.wp-mesh,
+.wp-mesh-blob,
+.wp-mesh-halo,
+.wp-hero-orb,
+.wp-hero-orb-glow,
+.wp-hero-orb-layer,
+.wp-hero-orb-a,
+.wp-hero-orb-b,
+.wp-hero-orb-shine,
+.wp-hero-orb-shine-2,
+.wp-grain,
+.wp-spotlight,
+.wp-stars,
+.wp-stars-a,
+.wp-stars-b,
+.wp-stars-c,
+.wp-galaxy,
+.wp-nebula,
+.wp-nebula-1,
+.wp-nebula-2,
+#wp-intro {
+    display: none !important;
+}
+
+/* End — FINAL OVERRIDE */
+

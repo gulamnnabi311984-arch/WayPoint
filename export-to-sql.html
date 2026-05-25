@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>WayPoint → Supabase Seed Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --gold: #c9a85a;
+            --muted: #6b6b6b;
+            --border: #e2e2e2;
+            --bg: #fafaf7;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.5;
+        }
+        h1 {
+            font-size: 1.7em;
+            margin: 0 0 6px;
+            letter-spacing: -0.01em;
+        }
+        h2 {
+            font-size: 1.05em;
+            margin: 28px 0 8px;
+        }
+        p.muted, .muted {
+            color: var(--muted);
+        }
+        ol {
+            padding-left: 22px;
+            margin: 8px 0 18px;
+        }
+        ol li {
+            margin: 4px 0;
+        }
+        code {
+            background: #efeee8;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.92em;
+        }
+        .controls {
+            margin: 18px 0 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: var(--ink);
+            color: #fff;
+            border: 0;
+            padding: 11px 20px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.15s ease, transform 0.05s ease;
+        }
+        button:hover { background: #333; }
+        button:active { transform: translateY(1px); }
+        button.ghost {
+            background: #fff;
+            color: var(--ink);
+            border: 1px solid var(--border);
+        }
+        button.ghost:hover { background: #f1f1ed; }
+        textarea {
+            width: 100%;
+            height: 60vh;
+            font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+            font-size: 12.5px;
+            line-height: 1.5;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            resize: vertical;
+        }
+        .stats {
+            font-size: 0.9em;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+        .stats b { color: var(--ink); font-weight: 600; }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: var(--gold);
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-size: 0.88em;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<h1>WayPoint → Supabase Seed Generator</h1>
+<p class="muted">
+    Loads the current hardcoded data files and produces ready-to-run
+    <code>INSERT</code> statements that seed your Supabase <code>universities</code>
+    and <code>cities</code> tables.
+</p>
+
+<h2>How to use</h2>
+<ol>
+    <li>First, run <code>supabase-schema.sql</code> in the Supabase SQL Editor (one time only — creates the tables and RLS policies).</li>
+    <li>Click <b>Generate SQL</b> below.</li>
+    <li>Click <b>Copy to clipboard</b> (or <b>Download .sql</b>).</li>
+    <li>Open the Supabase SQL Editor → New Query → paste → Run.</li>
+</ol>
+<p class="muted">
+    The generated script is safe to re-run — every row uses
+    <code>ON&nbsp;CONFLICT&nbsp;(id)&nbsp;DO&nbsp;UPDATE</code>, so re-importing
+    just refreshes the existing rows in place.
+</p>
+
+<div class="controls">
+    <button onclick="generateAll()">Generate SQL</button>
+    <button class="ghost" onclick="copyOut()">Copy to clipboard</button>
+    <button class="ghost" onclick="downloadOut()">Download .sql</button>
+</div>
+
+<textarea id="out" spellcheck="false" placeholder="Click 'Generate SQL' to see the output here..."></textarea>
+<div id="stats" class="stats"></div>
+
+<div id="toast" class="toast">Copied!</div>
+
+<!-- Load the existing data files exactly as the live site does. -->
+<script src="../data/usa-universities.js"></script>
+<script src="../data/uk-universities.js"></script>
+<script src="../data/cities.js"></script>
+
+<script>
+'use strict';
+
+// --- SQL value encoders ---
+function sqlText(v) {
+    if (v === undefined || v === null) return 'NULL';
+    return "'" + String(v).replace(/'/g, "''") + "'";
+}
+function sqlJsonb(v) {
+    if (v === undefined || v === null) return "'[]'::jsonb";
+    // JSON.stringify produces double-quoted strings, so the only thing we
+    // need to escape for PostgreSQL is the single quote that wraps the
+    // outer literal — every other char (including double quotes) is fine.
+    return "'" + JSON.stringify(v).replace(/'/g, "''") + "'::jsonb";
+}
+
+// --- University row builder ---
+function universityRowSql(id, country, displayOrder, uni) {
+    const cols = [
+        'id', 'country', 'display_order',
+        'name', 'short_name', 'city_id', 'city_name',
+        'rank', 'tuition', 'hero_image', 'overview', 'financial_reqs',
+        'quick_facts', 'admission_requirements', 'application_deadlines',
+        'bachelors', 'masters', 'scholarships'
+    ];
+    const vals = [
+        sqlText(id),
+        sqlText(country),
+        String(displayOrder),
+        sqlText(uni.name),
+        sqlText(uni.shortName),
+        sqlText(uni.cityId),
+        sqlText(uni.cityName),
+        sqlText(uni.rank),
+        sqlText(uni.tuition),
+        sqlText(uni.heroImage),
+        sqlText(uni.overview),
+        sqlText(uni.financialReqs),
+        sqlJsonb(uni.quickFacts),
+        sqlJsonb(uni.admissionRequirements),
+        sqlJsonb(uni.applicationDeadlines),
+        sqlJsonb(uni.bachelors),
+        sqlJsonb(uni.masters),
+        sqlJsonb(uni.scholarships)
+    ];
+    const updates = cols.slice(1).map(function (c) { return c + ' = excluded.' + c; });
+    return (
+        'insert into public.universities (' + cols.join(', ') + ') values (\n  ' +
+        vals.join(',\n  ') +
+        '\n) on conflict (id) do update set\n  ' +
+        updates.join(',\n  ') + ';'
+    );
+}
+
+// --- City row builder ---
+function cityRowSql(id, city) {
+    const cols = [
+        'id', 'name', 'state', 'layout',
+        'gallery', 'life', 'vibes', 'landmarks',
+        'cost_note_top', 'cost_note_bottom',
+        'rent_shared', 'rent_studio',
+        'utils_shared', 'utils_studio',
+        'food_shared', 'food_studio',
+        'trans_shared', 'trans_studio',
+        'ent_shared', 'ent_studio',
+        'total_shared', 'total_studio',
+        'utils', 'food', 'trans'
+    ];
+    const vals = [
+        sqlText(id),
+        sqlText(city.name),
+        sqlText(city.state),
+        sqlText(city.layout),
+        sqlJsonb(city.gallery),
+        sqlJsonb(city.life),
+        sqlText(city.vibes),
+        sqlText(city.landmarks),
+        sqlText(city.costNoteTop),
+        sqlText(city.costNoteBottom),
+        sqlText(city.rentShared),
+        sqlText(city.rentStudio),
+        sqlText(city.utilsShared),
+        sqlText(city.utilsStudio),
+        sqlText(city.foodShared),
+        sqlText(city.foodStudio),
+        sqlText(city.transShared),
+        sqlText(city.transStudio),
+        sqlText(city.entShared),
+        sqlText(city.entStudio),
+        sqlText(city.totalShared),
+        sqlText(city.totalStudio),
+        sqlText(city.utils),
+        sqlText(city.food),
+        sqlText(city.trans)
+    ];
+    const updates = cols.slice(1).map(function (c) { return c + ' = excluded.' + c; });
+    return (
+        'insert into public.cities (' + cols.join(', ') + ') values (\n  ' +
+        vals.join(',\n  ') +
+        '\n) on conflict (id) do update set\n  ' +
+        updates.join(',\n  ') + ';'
+    );
+}
+
+function generateAll() {
+    const out = [];
+    out.push('-- ============================================================');
+    out.push('-- WayPoint seed data — generated by tools/export-to-sql.html');
+    out.push('-- Generated at: ' + new Date().toISOString());
+    out.push('-- Safe to re-run: every row uses ON CONFLICT (id) DO UPDATE.');
+    out.push('-- ============================================================');
+    out.push('');
+    out.push('begin;');
+    out.push('');
+    out.push('-- ----------- USA UNIVERSITIES -----------');
+    out.push('');
+    const usa = window.usaUniversitiesData || {};
+    let order = 0;
+    let usaCount = 0;
+    Object.keys(usa).forEach(function (id) {
+        out.push(universityRowSql(id, 'USA', order++, usa[id]));
+        out.push('');
+        usaCount++;
+    });
+    out.push('-- ----------- UK UNIVERSITIES -----------');
+    out.push('');
+    const uk = window.ukUniversitiesData || {};
+    order = 0;
+    let ukCount = 0;
+    Object.keys(uk).forEach(function (id) {
+        out.push(universityRowSql(id, 'UK', order++, uk[id]));
+        out.push('');
+        ukCount++;
+    });
+    out.push('-- ----------- CITIES -----------');
+    out.push('');
+    const cities = window.citiesData || {};
+    let cityCount = 0;
+    Object.keys(cities).forEach(function (id) {
+        out.push(cityRowSql(id, cities[id]));
+        out.push('');
+        cityCount++;
+    });
+    out.push('commit;');
+    out.push('');
+    out.push('-- Done. Seeded ' + (usaCount + ukCount) + ' universities (' + usaCount + ' USA + ' + ukCount + ' UK) and ' + cityCount + ' cities.');
+
+    document.getElementById('out').value = out.join('\n');
+    document.getElementById('stats').innerHTML =
+        '<b>' + (usaCount + ukCount) + '</b> universities (' +
+        '<b>' + usaCount + '</b> USA + <b>' + ukCount + '</b> UK) and ' +
+        '<b>' + cityCount + '</b> cities ready to seed.';
+}
+
+function copyOut() {
+    const ta = document.getElementById('out');
+    if (!ta.value) { generateAll(); }
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    if (!ok && navigator.clipboard) {
+        navigator.clipboard.writeText(ta.value).then(showToast);
+    } else if (ok) {
+        showToast();
+    } else {
+        alert('Copy failed — select the text manually and copy.');
+    }
+}
+
+function downloadOut() {
+    const ta = document.getElementById('out');
+    if (!ta.value) { generateAll(); }
+    const blob = new Blob([ta.value], { type: 'application/sql' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'waypoint-seed.sql';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+}
+
+function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    clearTimeout(showToast._tid);
+    showToast._tid = setTimeout(function () { t.classList.remove('show'); }, 1500);
+}
+
+// Auto-generate on page load so the textarea is never empty.
+window.addEventListener('DOMContentLoaded', generateAll);
+</script>
+
+</body>
+</html>
